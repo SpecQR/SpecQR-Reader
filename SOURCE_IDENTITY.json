@@ -1,0 +1,54 @@
+{
+  "product": "SpecQR Reader",
+  "version": "0.1.1",
+  "runtime_identity": "Identical to accepted October10 image implementation; publication preparation changes build/development support and documentation only.",
+  "files": [
+    {
+      "path": "include/specqr/reader.hpp",
+      "sha256": "15fe319ca3441ddadcff62dd2a1d55b9d2a619a7f296c8bf1c4d256d4ed8abbb",
+      "bytes": 2743
+    },
+    {
+      "path": "src/common.cpp",
+      "sha256": "23b2ccf180bd244c7fafa516ce6d36590dfb7c3e76a57b1394c1552edcd7ac91",
+      "bytes": 539
+    },
+    {
+      "path": "src/grid.cpp",
+      "sha256": "adffa496b264d34aee7c49bb1c516f551cbc442184facd24d9320b4893dad61c",
+      "bytes": 11799
+    },
+    {
+      "path": "src/image.cpp",
+      "sha256": "6ad93f6c6906d04d267a470a9c1afd681f87577c4a19659adb1cda4b3d4f3df1",
+      "bytes": 25192
+    },
+    {
+      "path": "src/internal.hpp",
+      "sha256": "20523cff6ce56481f3edc1d75afc189762bf6107ee894e056c92203a4c39c984",
+      "bytes": 253
+    },
+    {
+      "path": "src/payload.cpp",
+      "sha256": "de41195a0cb18b2f7fd7ed5a57dff75b7cd750153307bf2f238acda2e3ea5abb",
+      "bytes": 9601
+    },
+    {
+      "path": "src/qr_tables.hpp",
+      "sha256": "032dcd00ba98aa8e4dadfd214183b85dfe11742bbbc27a2b75f95dfb3dd15df7",
+      "bytes": 4003
+    },
+    {
+      "path": "src/rs.cpp",
+      "sha256": "174433fcabab4adc07a5f72bc7eb3883204a879d866a84065db48d447960e402",
+      "bytes": 4815
+    },
+    {
+      "path": "tools/reader_cli.cpp",
+      "sha256": "93e2b5c97c5fc000c28e306b48ce83bc8203107359e279f0481804dd9506ea48",
+      "bytes": 8352
+    }
+  ],
+  "formal_proof": "None claimed",
+  "license": "MIT for newly authored project code; see LICENSE and scoped THIRD_PARTY notices"
+}

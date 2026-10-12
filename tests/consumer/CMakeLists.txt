@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.16)
+project(ExternalSpecQRConsumer LANGUAGES CXX)
+find_package(SpecQRReader 0.1 REQUIRED CONFIG)
+add_executable(external-consumer consumer.cpp)
+target_link_libraries(external-consumer PRIVATE SpecQR::specqr_reader)
+enable_testing()
+add_test(NAME installed-public-consumer COMMAND external-consumer ${CMAKE_CURRENT_SOURCE_DIR}/sample.grid)

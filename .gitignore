@@ -1,0 +1,6 @@
+/build*/
+/out/
+/install/
+/evidence/
+__pycache__/
+*.pyc
