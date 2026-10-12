@@ -1,8 +1,8 @@
-# Public API
+# 公開 API
 
-Include `<specqr/reader.hpp>` and link `SpecQR::specqr_reader` through the installed CMake package, or link the built static library. Both entry points are synchronous. Input buffers remain caller-owned and valid for the duration of the call; returned vectors and strings own their storage.
+`<specqr/reader.hpp>` をインクルードし、インストール済みの CMake パッケージを通じて `SpecQR::specqr_reader` にリンクするか、ビルド済みの静的ライブラリにリンクします。2 つの入口は、どちらも同期 API です。入力バッファーの所有権は呼び出し側にあり、呼び出し中は有効でなければなりません。返されるベクターと文字列は、自身の記憶領域を所有します。
 
-## Sampled module grids
+## サンプリング済みモジュールグリッド
 
 ```cpp
 specqr::GridView view{
@@ -18,11 +18,11 @@ if (result) {
 }
 ```
 
-Modules must be exactly `0` (light) or `1` (dark). Do not include the quiet zone. The last row must fit within `data_size`; row padding is permitted and ignored. Null data, invalid dimensions, values outside 0/1, and inconsistent extents are rejected. The caller must truthfully describe accessible memory; the library cannot discover the size of a raw pointer's allocation.
+各モジュールの値は、明を表す `0` または暗を表す `1` に限ります。クワイエットゾーンは含めません。最終行までの範囲が `data_size` 内に収まる必要があります。行末のパディングは許容され、無視されます。null データ、不正な寸法、0/1 以外の値、整合しないバッファー範囲は拒否します。呼び出し側は、実際にアクセスできるメモリー範囲を正しく指定する必要があります。ライブラリは、生ポインターから確保済み領域の大きさを知ることはできません。
 
-`DecodeResult::operator bool()` is true exactly when `error == Error::none`. Read `symbol` only for a successful grid decode. The grid path tries rotations, optional mirroring, and optional inversion, then validates format/version information, corrects codewords and parses payloads. A failure error describes the furthest decoding stage reached, not an exhaustive diagnosis of every possible orientation.
+`DecodeResult::operator bool()` は、`error == Error::none` の場合に限って真になります。グリッドの復号に成功した場合だけ、`symbol` を読み取ってください。グリッドの処理では、回転と、設定に応じて鏡映・明暗反転を試し、形式情報とバージョン情報の検証、符号語の訂正、ペイロードの解析を行います。失敗時のエラーは、到達した最も先の復号段階を表します。考えられる全方向を網羅した診断ではありません。
 
-## Grayscale and RGB images
+## グレースケール画像と RGB 画像
 
 ```cpp
 specqr::Options options;
@@ -41,61 +41,63 @@ for (const auto& symbol : result.symbols) {
 const bool search_was_limited = result.work_limit_reached;
 ```
 
-Images use 8-bit samples, top-to-bottom rows, and a positive unsigned stride. Width and height must be nonzero. The row and last-row extents are checked for overflow and against `data_size` before access. There is no alpha, BGR, packed-bit, planar-channel or negative-stride input format; convert in an adapter. RGB is converted to integer luminance inside the core.
+画像は 8 ビットのサンプル値を使い、行を上から下へ並べます。ストライドは符号なしの正の値です。幅と高さは 0 より大きくなければなりません。アクセス前に、行の範囲と最終行までの範囲について、オーバーフローと `data_size` への収まりを検査します。アルファチャンネル、BGR、ビット詰め、色成分を別々の平面に置く形式、負のストライドには対応していないため、アダプターで変換してください。RGB は中核処理の内部で整数の輝度値へ変換します。
 
-The detector searches for planar Model 2 symbols and deduplicates them by position. Equal payloads at separate tested positions remain separate symbols. Output order is discovery order; do not rely on a stable reading order or exhaustive scene coverage.
+検出器は、平面上の QR Code Model 2 シンボルを探索し、位置に基づいて重複を除きます。検査で確認した範囲では、異なる位置にある同じペイロードのシンボルは、別々のシンボルとして保持されます。出力は発見順です。一定の読み順や画像全体の網羅を前提にしないでください。
 
-### Status and partial results
+### 状態と部分結果
 
-| Image result | Meaning |
+下表のフラグは `work_limit_reached` を指します。
+
+| 画像の結果 | 意味 |
 | --- | --- |
-| `error == none`, nonempty `symbols`, flag false | Symbols were recovered; no reported search truncation. Completeness is still not guaranteed. |
-| `error == none`, nonempty `symbols`, flag true | Symbols were recovered, but a work, candidate, hypothesis or symbol limit truncated search. |
-| `error == resource_limit`, nonempty `symbols` | A resource failure occurred after some symbols were recovered; preserve or discard those symbols according to application policy. |
-| `error == resource_limit`, empty `symbols` | No symbols were returned before a resource/work limit or allocation failure. |
-| `error == not_found`, empty `symbols` | This search found no decodable symbol; this does not prove the image contains no QR code. |
+| `error == none`、`symbols` が空ではなく、フラグが偽 | シンボルを復元でき、探索の打ち切りは報告されていません。ただし、全シンボルを見つけた保証はありません。 |
+| `error == none`、`symbols` が空ではなく、フラグが真 | シンボルは復元できましたが、処理量、候補数、仮説数、シンボル数のいずれかの上限により探索が打ち切られました。 |
+| `error == resource_limit`、`symbols` が空ではない | 一部のシンボルを復元した後で資源に関する失敗が発生しました。アプリケーションの方針に従って、これらのシンボルを保持または破棄してください。 |
+| `error == resource_limit`、`symbols` が空 | 資源や処理量の上限、またはメモリー確保失敗までに、返せるシンボルがありませんでした。 |
+| `error == not_found`、`symbols` が空 | この探索では復号できるシンボルが見つかりませんでした。画像に QR コードがないことの証明ではありません。 |
 
-`ImageResult::operator bool()` only tests `error == none`; it does not encode completeness. The implementation can finish a successful sample after crossing a probe ceiling and return without a work flag if no later uncovered hypothesis reaches the next guard. A false flag is therefore not a strict probe-counter certificate either.
+`ImageResult::operator bool()` が検査するのは `error == none` だけであり、探索の完了を表すものではありません。実装上、サンプル点の検査回数上限を越えた後でも、進行中のサンプル処理に成功する場合があります。その後、まだ処理していない仮説が次の上限チェックへ到達しなければ、処理量フラグを立てずに返ることがあります。そのため、フラグが偽であっても、サンプル点の検査回数カウンターが上限以内だったことを厳密には保証しません。
 
-Allocation failures are converted to `resource_limit` where caught. Error construction and copying a partial result can themselves allocate and throw `std::bad_alloc`. Both public entry points are deliberately not `noexcept`; applications requiring an allocation-free failure path need a different integration design.
+メモリー確保失敗は、捕捉できた箇所では `resource_limit` へ変換します。ただし、エラー結果の構築や部分結果のコピー自体がメモリー確保を伴い、`std::bad_alloc` を送出する場合があります。両方の公開 API は、意図的に `noexcept` にしていません。失敗経路でメモリー確保を一切必要としないアプリケーションには、別の組み込み設計が必要です。
 
-## Exact bytes and metadata
+## 正確なバイト列とメタデータ
 
-`Symbol.bytes` concatenates data segments in their original order. It does not transcode text, infer an encoding, normalize characters or merge Structured Append symbols. `Symbol.segments` preserves data and zero-byte control records; each has its mode, active ECI and bit offset/length spanning the segment's mode indicator and fields.
+`Symbol.bytes` は、データセグメントを元の順序で連結します。文字コード変換、符号化方式の推測、文字の正規化、Structured Append シンボルの結合は行いません。`Symbol.segments` は、データレコードとバイト数が 0 の制御レコードを保持します。各レコードにはモード、有効な ECI、セグメントのモード指示子と各フィールドを含むビットオフセットとビット長があります。
 
-| Segment mode | Byte representation |
+| セグメントのモード | バイト表現 |
 | --- | --- |
-| Numeric | ASCII digits, including leading zeroes. |
-| Alphanumeric | ASCII characters from the QR alphabet. FNC1 `%` and `%%` remain literal source bytes. |
-| Byte | Unchanged byte values, including NUL and invalid UTF-8. |
-| Kanji | Reconstructed two-byte Shift JIS values, with structural range checks. |
-| Hanzi subset 1 | Reconstructed two-byte GB2312 values, with structural range checks. Other subsets return `unsupported`. |
-| ECI, FNC1, Structured Append | Empty control records; associated metadata is retained. |
+| Numeric | 先頭のゼロを含む ASCII 数字です。 |
+| Alphanumeric | QR の英数字集合に含まれる ASCII 文字です。FNC1 の `%` と `%%` は元のバイトのまま保持します。 |
+| Byte | NUL や不正な UTF-8 を含め、バイト値を変更しません。 |
+| Kanji | 構造上の範囲を検査し、2 バイトの Shift JIS 値を復元します。 |
+| Hanzi subset 1 | 構造上の範囲を検査し、2 バイトの GB2312 値を復元します。他のサブセットは `unsupported` を返します。 |
+| ECI、FNC1、Structured Append | バイト列が空の制御レコードです。関連するメタデータを保持します。 |
 
-An ECI value of `-1` means unspecified, not a guessed encoding. Canonical ECI forms through assignment 999999 are parsed; unknown assignments remain metadata. Range checks do not establish that every Kanji/Hanzi character is assigned in a character-set registry. Mixed-mode concatenation need not represent one Unicode encoding.
+ECI の値 `-1` は未指定を意味し、推測した符号化方式ではありません。割り当て番号 999999 までの正規の ECI 表現を解析し、未知の割り当てもメタデータとして残します。範囲検査だけでは、全ての Kanji/Hanzi の文字が文字集合の登録簿で割り当て済みであることは保証できません。複数モードの連結結果が、単一の Unicode 符号化方式を表すとは限りません。
 
-`fnc1` is 0 when absent, 1 for first position and 2 for second position. `fnc1_application_indicator` preserves the raw eight-bit second-position value, or is -1 when absent. Applications interpreting GS1 data must explicitly handle FNC1 escape conventions. In particular, the Reader does not replace a single `%` with GS or collapse `%%`.
+`fnc1` は、不在なら 0、第 1 位置なら 1、第 2 位置なら 2 です。`fnc1_application_indicator` は、第 2 位置の生の 8 ビット値を保持し、不在なら -1 です。GS1 データを解釈するアプリケーションは、FNC1 のエスケープ規約を明示的に処理する必要があります。特に、Reader は単独の `%` を GS へ置換せず、`%%` を 1 文字にまとめることもしません。
 
-`structured_append` records presence, zero-based index, symbol count (1–16) and parity. Reassembly and cross-symbol consistency checks belong to the application.
+`structured_append` は、有無、0 始まりのインデックス、シンボル数（1～16）、パリティーを記録します。再結合とシンボル間の整合性検査は、アプリケーション側で行います。
 
-Other `Symbol` fields record version, mask, error-correction level, corrected codeword count, format distance and the rotation/mirroring/inversion used by decoding. Rotation is expressed in multiples of 90 degrees for the sampled grid; it is not a camera angle. For image results, `corners` describes the sampled quadrilateral in image coordinates. It is not reordered to promise canonical QR orientation after grid rotation/mirroring. Grid-only results have no image geometry.
+その他の `Symbol` フィールドには、バージョン、マスク、誤り訂正レベル、訂正した符号語数、形式情報の距離、復号で使用した回転・鏡映・明暗反転を記録します。回転は、サンプリング済みグリッドに対する 90° の倍数で表し、カメラの角度ではありません。画像の結果では、`corners` はサンプリングした四角形を画像座標で表します。グリッドの回転や鏡映の後に、QR の標準的な向きを保証する順序へ並べ替えることはありません。グリッドだけの結果には、画像上の幾何情報はありません。
 
-## Options and limits
+## オプションと上限
 
-| Option | Default | Effect |
+| オプション | 既定値 | 効果 |
 | --- | --- | --- |
-| `try_mirror` | true | Try mirrored grid orientations. |
-| `try_invert` | false | Also try light-on-dark polarity. |
-| `diagnostics` | false | Collect stage information in result/symbol trace vectors. |
-| `strict_padding` | false | Reject the narrow reported extra-zero padding accommodation when enabled. |
-| `limits.max_pixels` | 16,777,216 | Limit image pixels or sampled grid modules. |
-| `limits.max_dimension` | 8,192 | Limit each image dimension or grid side. |
-| `limits.max_candidates` | 96 | Limit retained finder candidates per image threshold pass. |
-| `limits.max_symbols` | 32 | Limit returned image symbols; reaching the cap marks incomplete search. |
-| `limits.max_grid_attempts` | 2,048 | Limit image sampling attempts, or grid orientation attempts for direct `decode_grid()`. |
+| `try_mirror` | true | 鏡映したグリッドの向きも試します。 |
+| `try_invert` | false | 暗い背景に明るいモジュールがある明暗極性も試します。 |
+| `diagnostics` | false | 処理段階の情報を、結果とシンボルのトレースベクターへ収集します。 |
+| `strict_padding` | false | 有効にすると、報告済みの限定的な追加ゼロパディングの許容をやめ、その変形を拒否します。 |
+| `limits.max_pixels` | 16,777,216 | 画像の画素数、またはサンプリング済みグリッドのモジュール数を制限します。 |
+| `limits.max_dimension` | 8,192 | 画像の各寸法、またはグリッドの一辺を制限します。 |
+| `limits.max_candidates` | 96 | 画像のしきい値処理パスごとに保持する位置検出パターン候補数を制限します。 |
+| `limits.max_symbols` | 32 | 返す画像シンボル数を制限します。上限に達すると、探索が未完了であることをフラグで示します。 |
+| `limits.max_grid_attempts` | 2,048 | 画像のサンプリング試行数、または直接呼び出す `decode_grid()` でのグリッド方向の試行数を制限します。 |
 
-Image sampling attempts can each invoke up to eight grid orientations; those are separate counters. Hard image ceilings apply even when callers raise limits: 67,108,864 pixels, dimension 32,768, 128 finder candidates per pass, 16,384 sampling attempts, and 1,024 output symbols. Lower limits can reduce recall. See [resource limitations](limitations.md#resources-and-hostile-input) before selecting limits for untrusted images.
+画像サンプリングの各試行では、最大 8 通りのグリッド方向を試すことがあり、それぞれのカウンターは別です。呼び出し側が上限を引き上げても、画像処理には固定の上限が適用されます。画素数は 67,108,864、各寸法は 32,768、パスごとの位置検出パターン候補数は 128、サンプリング試行数は 16,384、出力シンボル数は 1,024 です。上限を下げると再現率が低下する場合があります。信頼できない画像に対する上限を選ぶ前に、[資源に関する制約](limitations.md#resources-and-hostile-input) を参照してください。
 
-Default padding handling accepts one specifically detected extra-zero variant observed from Segno 1.6.6 and sets `noncanonical_padding`. It still validates subsequent padding. `strict_padding=true` rejects that variant through either entry point. This is an explicit interoperability policy, not a claim about unavailable normative standard clauses.
+既定のパディング処理では、Segno 1.6.6 で観測された特定の追加ゼロ変形を検出した場合に限って受け入れ、`noncanonical_padding` を設定します。それ以降のパディングも検証します。`strict_padding=true` は、どちらの入口でもこの変形を拒否します。これは明示的な相互運用方針であり、参照できていない規格の規定条項についての主張ではありません。
 
-Diagnostics are opt-in engineering information. Trace text and event layout are not a stable machine protocol; use result fields and `error_name()` for application status. Messages describe an individual run and should not be parsed as a conformance verdict.
+診断情報は、明示的に有効にした場合に収集する開発用の情報です。トレースの文面とイベント構造は、安定した機械向けプロトコルではありません。アプリケーションの状態判断には、結果のフィールドと `error_name()` を使用してください。メッセージは個々の実行を説明するものであり、適合性の判定結果として解析しないでください。

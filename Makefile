@@ -12,7 +12,7 @@ SANITIZER_DETECT_LEAKS ?= $(if $(filter Darwin,$(shell uname -s)),0,1)
 OBJECTS := $(SOURCES:src/%.cpp=$(BUILD_DIR)/%.o)
 -include $(OBJECTS:.o=.d)
 .DEFAULT_GOAL := all
-.PHONY: all clean test test-core test-gate test-reference sanitize
+.PHONY: all clean test test-core test-gate test-writing test-reference sanitize
 all: $(BUILD_DIR)/libspecqr_reader.a $(BUILD_DIR)/specqr-reader $(BUILD_DIR)/consumer
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
@@ -45,7 +45,10 @@ test-core: all $(BUILD_DIR)/api_tests $(BUILD_DIR)/payload_rs_tests $(BUILD_DIR)
 	$(BUILD_DIR)/fnc1_public_tests
 test-gate:
 	python3 -B tests/evaluator_gate_tests.py --output $(BUILD_DIR)/evaluator-gate.json
-test: test-core test-gate
+test-writing:
+	python3 -B tests/test_writing.py
+	python3 -B tools/verify_writing.py
+test: test-core test-gate test-writing
 test-reference: test
 	@test -f fixtures/manifest.json || { echo "Full reference corpus is separate; fixtures/manifest.json is required for test-reference."; exit 2; }
 	python3 tools/evaluate.py --binary $(BUILD_DIR)/specqr-reader --fail-on-mismatch

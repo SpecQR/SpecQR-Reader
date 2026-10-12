@@ -1,60 +1,65 @@
-# Limits and measured image behavior
+<a id="limits-and-measured-image-behavior"></a>
+# 制約と画像読み取りの測定結果
 
-SpecQR Reader 0.1.1 is an experimental, bounded QR Model 2 reader. Micro QR, rMQR, automatic text transcoding, Structured Append reassembly, erasure hints, camera capture and general image codecs are outside its interface. Detection targets planar symbols; curved surfaces, dense clutter, damaged function patterns and poor sampling can defeat it. Close, overlapping or nested symbols may be suppressed by spatial deduplication.
+SpecQR Reader 0.1.1 は、入力と処理量に上限を設けた実験段階の QR Code Model 2 リーダーです。Micro QR、rMQR、自動文字コード変換、Structured Append の再構成、消失位置のヒント、カメラ取り込み、汎用画像コーデックはインターフェイスの対象外です。検出対象は平面上のシンボルです。曲面、密集した背景模様、機能パターンの損傷、不十分なサンプリングによって読み取れない場合があります。近接、重複、入れ子状のシンボルは、位置に基づく重複除去によって除外される可能性があります。
 
-There is no formal proof of the Reader's parsing, correction, image decoding, memory safety or full QR correctness. Independent tests do not establish normative conformance. No proof from earlier Ada/SPARK or Lean work is transferred to this C++ implementation. Full normative ISO clauses were not accessed.
+Reader の解析、訂正、画像読み取り、メモリ安全性、QR 全体の正しさについて形式証明はありません。独立したテストの成功は、規格への適合を確立するものではありません。既存の Ada/SPARK や Lean による成果の証明を、この C++ 実装に引き継いでいません。ISO 規格の規定本文全体は参照していません。
 
-## Measured image conditions
+<a id="measured-image-conditions"></a>
+## 画像条件別の測定結果
 
-“Exact” below means the expected byte multiset, including symbol multiplicity, was returned. “Empty” means no symbol was returned. “Work flags” record incomplete search, including successes that recovered all expected bytes. These finite observations are not deployment recall or false-decode probabilities.
+以下の「完全一致」は、シンボルの重複数を含む期待どおりのバイト列の多重集合を返したことを意味します。「空」はシンボルを返さなかったことを意味します。「処理上限フラグ」は探索が未完了だった記録で、期待した全バイト列を回収できた成功例も含みます。これらの有限の観測は、実運用での再現率や誤読確率を表すものではありません。
 
-| Condition | Images | Exact | Empty | Wrong/extra | Work flags |
+| 条件 | 画像数 | 完全一致 | 空 | 誤り・余分な出力 | 処理上限フラグ |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Gaussian blur, radius 0.9 pixels at 5 pixels/module | 4 | 4 | 0 | 0 | 0 |
-| New planar perspective warps | 20 | 20 | 0 | 0 | 3 successful searches |
-| Small white occlusion patches or finder-crossing strips | 8 | 6 | 2 | 0 | 0 |
-| Low contrast and selected illumination gradients | 12 | 11 | 1 | 0 | 0 |
-| Nominal module sizes from 1 to 3 pixels | 12 | 8 | 4 | 0 | 0 |
-| Older real photographs, now development regressions | 50 | 47 | 3 | 0 | 0 |
+| 1 モジュール当たり 5 ピクセルで、半径 0.9 ピクセルのガウスぼかし | 4 | 4 | 0 | 0 | 0 |
+| 新規の平面透視変換 | 20 | 20 | 0 | 0 | 成功例のうち 3 件 |
+| 小さな白い遮蔽パッチ、または位置検出パターンを横切る白い帯 | 8 | 6 | 2 | 0 | 0 |
+| 低コントラストと、選択した照明勾配 | 12 | 11 | 1 | 0 | 0 |
+| 公称モジュールサイズが 1〜3 ピクセル | 12 | 8 | 4 | 0 | 0 |
+| 既存の実写写真。現在は開発用の回帰テスト | 50 | 47 | 3 | 0 | 0 |
 
-The blur row is from the main test suite. The next four rows are selected categories from a separate newer synthetic suite; the rows must not be combined into one representative population.
+ぼかしの行は主要テスト群の結果です。続く 4 行は、別の新しい合成テスト群から選んだ分類です。これらの行を、代表性のある単一の母集団として合算してはいけません。
 
-The four blur cases use versions 1, 3, 7 and 12 at error level H. They establish one tested mild Gaussian blur setting, not a maximum blur radius or motion-blur tolerance. Separate intensity-noise tests at sigma 12 and 35 on a 0–255 scale decoded four images each; noise is not dirt or missing modules.
+ぼかしの 4 ケースは、バージョン 1、3、7、12、誤り訂正レベル H を使用しています。確認できたのは軽いガウスぼかしの 1 設定であり、最大許容半径やモーションブラーへの耐性ではありません。別の輝度ノイズテストでは、0〜255 の尺度で標準偏差 12 と 35 を使用し、それぞれ 4 画像を読み取れました。ノイズは汚れやモジュールの欠損とは異なります。
 
-The twenty perspective cases use versions 1, 2, 4, 7 and 10, rotations from -43 to 31 degrees, projective corner warps and an unclipped quiet zone. Generator corner offsets are coordinate displacements, not camera tilt angles or a percentage of physical distortion. Three exact results still flagged incomplete search.
+透視変換の 20 ケースは、バージョン 1、2、4、7、10、-43°〜31° の回転、四隅の射影変形、切り欠きのないクワイエットゾーンを使用しています。生成器の角のオフセットは座標の変位であり、カメラの傾斜角や物理的な歪みの割合ではありません。完全一致した結果のうち 3 件でも、探索未完了のフラグが付きました。
 
-For occlusion, six small interior white patches on a version-3 H symbol at 5 pixels/module decoded. Patch footprints ranged from 2×2 to 3×3 or 4×2/2×4 modules. Two white strips crossing the top-left finder returned empty. Location matters: these are artificial patches, not a real-dirt, scratched-print or arbitrary damaged-area guarantee. Background clutter tests paste an intact QR and quiet zone over the clutter and therefore do not test dirt on the QR itself.
+遮蔽テストでは、1 モジュール当たり 5 ピクセルのバージョン 3・レベル H のシンボル内部に置いた、小さな白いパッチの 6 ケースを読み取れました。パッチの大きさは 2×2、3×3、4×2、2×4 モジュールです。左上の位置検出パターンを横切る白い帯の 2 ケースでは結果が空でした。損傷の位置が影響します。これらは人工的なパッチであり、実際の汚れ、印刷面の傷、任意の損傷面積に対する保証ではありません。背景の乱雑さを試すテストは、無傷の QR とクワイエットゾーンを背景の上に貼り付けているため、QR 自体の汚れは試していません。
 
-All four uniformly lit contrast fixtures decoded, including dark/light intensities 60/80. One 60/80 case combined with a 0.35-to-1 horizontal brightness gradient returned empty; eleven of twelve combined contrast/illumination fixtures decoded. Some fixtures also include blur. These pixel values do not establish a universal contrast, lux or camera exposure threshold.
+均一な照明でのコントラスト用データは、暗部・明部の輝度 60/80 を含む 4 ケースすべてを読み取れました。輝度 60/80 に水平方向の 0.35〜1 の明るさ勾配を組み合わせた 1 ケースでは結果が空で、コントラストと照明を組み合わせた 12 ケース中 11 ケースを読み取れました。一部のデータにはぼかしも含まれます。これらの画素値は、汎用的なコントラスト、照度、カメラ露出の閾値を確立するものではありません。
 
-Both 1-pixel/module cases and both 1.25-pixel/module cases returned empty. The eight cases at 1.5, 1.75, 2 and 3 pixels/module decoded. Resampling, differing payloads and differing versions mean this does not establish a universal 1.5-pixel minimum.
+1 モジュール当たり 1 ピクセルの 2 ケースと、1.25 ピクセルの 2 ケースは、いずれも結果が空でした。1.5、1.75、2、3 ピクセルの 8 ケースは読み取れました。再サンプリング、ペイロード、バージョンが異なるため、汎用的な最小値が 1.5 ピクセルであるとはいえません。
 
-The fifty older photographs came from the pinned ZXing corpus with upstream notices retained in the separate evidence collection. Their use in development means they are no longer held-out data. Two misses depict fabric; the third is a screen fixture rejected by the documented padding policy, not a proved failure from visual damage.
+既存の写真 50 枚は固定参照の ZXing コーパスから取得し、上流の通知文を別の検証資料に保持しています。開発に使用したため、現在は評価まで未使用のデータではありません。失敗した 2 枚は布地を写しています。残る 1 枚は、文書化したパディング方針で拒否した画面表示のデータであり、見た目の損傷が原因だと証明された失敗ではありません。
 
-Four newer positive photographs from three BoofCV scene groups were frozen before evaluation and tested as gray and RGB, producing eight correlated raster evaluations. Every evaluation returned nonempty byte multisets agreeing with the independent decoder. Independent exact payload truth remains unknown, so exact-correct and wrong-byte counts are unknown. Both clipboard photos flagged incomplete search in both adapters, four of the eight evaluations. Six visually QR-free photos returned empty in both adapters; the coffee scene was work-limited in both. Visual inspection and finite empty results do not prove absence of every QR symbol or a population false-decode rate.
+新しい読み取り対象写真 4 枚は、BoofCV の 3 つのシーングループに由来します。評価前に固定し、グレースケールと RGB でテストしたため、相互に相関する 8 回のラスター評価があります。すべての評価で、独立したデコーダーと一致する空でないバイト列の多重集合を返しました。ただし、ペイロードの独立した正解値は不明のため、正解と完全一致した件数と誤ったバイト列の件数は不明です。クリップボードを写した 2 枚では、両方のアダプターで探索未完了のフラグが付き、8 回中 4 回に当たります。目視で QR がないと判断した写真 6 枚は、両方のアダプターで結果が空でした。コーヒーのシーンは両方で処理上限に達しました。目視と有限の空結果は、すべての QR シンボルの不在や母集団における誤読率を証明しません。
 
-The complete newer synthetic suite returned 73 exact positives and seven empty positives out of 80, with zero observed wrong or extra outputs and three successful work-limited searches. Its sixteen synthetic negatives were all empty, two work-limited. Separately, the main suite's image subset returned 78 exact positives and 18 empty negatives, with fourteen positive and ten negative work flags. These suites overlap in intent and must remain separate measurements.
+新しい合成テスト群全体では、読み取り対象 80 ケース中、73 ケースが完全一致、7 ケースが空でした。誤った出力や余分な出力の観測は 0 件で、完全一致した探索のうち 3 件は処理上限に達しました。合成した非対象データ 16 ケースはすべて空で、うち 2 ケースは処理上限に達しました。別に、主要テスト群の画像部分では、読み取り対象 78 ケースが完全一致、非対象 18 ケースが空で、処理上限フラグは対象側に 14 件、非対象側に 10 件ありました。これらのテスト群は意図が重なるため、別々の測定として扱う必要があります。
 
-## Error correction
+<a id="error-correction"></a>
+## 誤り訂正
 
-The algebraic unique-decoding radius is `floor(parity_codewords / 2)` wrong codewords **per block**. This property is not a formal proof that every implementation path is correct. Error-correction percentages must not be interpreted as a percentage of pixels or arbitrary obscured image area: one patch can damage finder patterns or many codewords across different blocks.
+代数的に一意な復号が可能な誤り数は、**ブロックごとに** `floor(parity_codewords / 2)` 符号語です。この性質は、実装のすべての経路が正しいという形式証明ではありません。誤り訂正率を、画素数や任意の遮蔽面積の割合として解釈してはいけません。1 つのパッチが位置検出パターンや、異なるブロックにまたがる多数の符号語を損傷する場合があります。
 
-Outside the correction radius, Reed–Solomon can select a different valid codeword. Finite rejection controls cannot promise universal detection of excessive corruption, and the API accepts no erasure hints.
+訂正可能な範囲を超えると、Reed–Solomon が別の有効な符号語を選ぶ場合があります。有限の拒否テストによって、過剰な破損を必ず検出できるとは保証できません。また、API は消失位置のヒントを受け付けません。
 
-## Resources and hostile input
+<a id="resources-and-hostile-input"></a>
+## 資源上限と不正入力
 
-The API validates dimensions, strides, multiplication and last-row extents before accessing pixels. Model 2 grid size is capped at 177×177 modules. Image dimensions, pixel count, candidate retention, sampling attempts, output count and finite search loops are bounded even if callers request very large limits.
+API は画素にアクセスする前に、寸法、ストライド、乗算、最終行の範囲を検証します。Model 2 グリッドの上限は 177×177 モジュールです。呼び出し側が非常に大きな上限を要求しても、画像寸法、画素数、保持する候補数、サンプリング試行数、出力数、有限の探索ループには上限があります。
 
-The default sampling budget is 2,048 attempts. The probe ceiling is `min(256000000, 4000000 + 65536 * attempt_cap)`; one in-flight pattern/sample can cross it before the next guard. The engineering audit bounds that overshoot at 36,718 charged probes, not a formal proof. Finder scanning, candidate clustering and geometric hypotheses have separate finite work; a sampling cap is not a total operation count or wall-clock deadline.
+既定のサンプリング上限は 2,048 回です。プローブ数の上限は `min(256000000, 4000000 + 65536 * attempt_cap)` です。処理中の 1 つのパターンまたはサンプルが、次の確認までにこの上限を超える場合があります。実装の監査では、その超過は計上されるプローブ 36,718 回以内と評価していますが、形式証明ではありません。位置検出パターンの走査、候補のクラスタリング、幾何仮説の検証には、それぞれ別の有限の処理があります。サンプリング上限は、総演算数や実時間の締め切りではありません。
 
-Raster working storage is approximately two bytes per input pixel plus `16 × (ceil(width/8)+1) × (ceil(height/8)+1)` bytes for local threshold tables. At the default pixel limit this is roughly 36 MiB before caller buffers, outputs, container overhead and runtime memory. There is no aggregate heap quota; segment metadata and output copies can substantially increase memory at high symbol caps. Allocation exhaustion can escape as `std::bad_alloc`, including while constructing an error result.
+ラスター処理用の作業領域は、入力画素当たり約 2 バイトに加え、局所閾値テーブル用の `16 × (ceil(width/8)+1) × (ceil(height/8)+1)` バイトです。既定の画素数上限では約 36 MiB ですが、呼び出し側のバッファー、出力、コンテナーの付随領域、ランタイムのメモリは含みません。ヒープ全体の使用量を制限する仕組みはなく、シンボル数の上限が大きい場合、セグメントのメタデータや出力のコピーでメモリが大幅に増える可能性があります。メモリ確保に失敗すると、エラー結果の構築中を含め、`std::bad_alloc` が外へ送出される場合があります。
 
-Five fixed large-negative controls returned empty in the cloud acceptance replay. Mean core times ranged from about 77 to 4,175 ms and maximum observed process RSS was 55,024 KiB; noise and finder clutter reached work limits. These are shared-host measurements for named controls, not portable performance bounds. RSS includes process memory and is not an isolated core-heap measurement. There is no cancellation or hard real-time API.
+クラウドでの受け入れ再検証では、大きな非対象画像の固定テスト 5 ケースが空の結果を返しました。コアの平均処理時間は約 77〜4,175 ms、観測されたプロセスの最大 RSS は 55,024 KiB でした。ノイズと位置検出パターンに似た模様は、処理上限に達しました。これは共有ホストで特定のデータを測定した結果であり、環境を問わず成立する性能上限ではありません。RSS はプロセスのメモリを含み、コアのヒープだけを測定した値ではありません。キャンセルやハードリアルタイムの API はありません。
 
-Applications processing untrusted images should set limits appropriate to their own latency and memory requirements and inspect partial-result status. The finite malformed-input smoke suite and sanitizers are useful checks, not exhaustive fuzz coverage or a security certification.
+信頼できない画像を処理するアプリケーションは、自身の応答時間とメモリの要件に応じた上限を設定し、部分結果の状態を確認する必要があります。有限の不正入力スモークテストとサニタイザーは有用な確認ですが、網羅的なファズテストやセキュリティ認証ではありません。
 
-## Platforms and acceptance scope
+<a id="platforms-and-acceptance-scope"></a>
+## プラットフォームと受け入れ範囲
 
-The parent independently reconciled Mac and Windows native evidence and matched the nine runtime/header/CLI files. Windows evidence covers GCC x64 under Windows ARM64 emulation; native Windows ARM64 ABI is untested. Compiler/runtime combinations without recorded execution remain unverified even if represented by a CI configuration.
+親担当は Mac と Windows のネイティブ検証資料を独立に照合し、ランタイム・ヘッダー・CLI の 9 ファイルが一致することを確認しました。この Windows 資料が対象とするのは、Windows ARM64 上のエミュレーションで動く GCC x64 ビルドです。ネイティブ Windows ARM64 ABI は未検証です。公開コミット `c7dfc6918d621d45830701b62c7a75ccd2ba965f` では、Linux・macOS・Windows の移植性確認と Linux のサニタイザーを含む [4 つの CI ジョブ](https://github.com/SpecQR/SpecQR-Reader/actions/runs/38248190279)がすべて成功しています。実行記録のないコンパイラーとランタイムの組み合わせは、CI 設定に記載されていても未検証です。
 
-Earlier cloud downloads of native archives failed as transfers. The parent's subsequent successful archive inspection closed the native-evidence reconciliation gate; it did not cause those bytes to become locally available in that cloud executor. The user has approved MIT distribution under SpecQR; final parent review of the assembled package remains required before any repository creation or public push. No stronger production, conformance, photographic or platform claim follows from accepting this bounded experimental candidate.
+以前のクラウドからのネイティブ検証アーカイブ取得は、転送に失敗しました。その後、親担当がアーカイブを取得して検査したことで資料照合の条件は満たされましたが、そのことによって当該クラウド環境にアーカイブのバイト列が届いたわけではありません。利用者による SpecQR 名義・MIT での配布承認と親担当の最終レビューを経て、上記コミットのソースは公開済みです。公開ソースの新規クローンでも、6 件の CTest、18 件の評価器検証、移設後のインストール済みライブラリーを使う独立した利用側プログラムが成功しています。これらの結果から、実運用、規格適合、写真、プラットフォームについて、記録した実験範囲を超える保証は導けません。

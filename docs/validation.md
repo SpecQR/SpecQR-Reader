@@ -1,79 +1,94 @@
-# Validation scope
+<a id="validation-scope"></a>
+# 検証範囲
 
-This source package provides a reproducible offline subset of the Reader acceptance tests. It excludes the full reference distributions, photo corpora, native archives, compiled binaries and private acceptance records. Fixed included inputs have file-level provenance described in [THIRD_PARTY.md](../THIRD_PARTY.md); excluded photographs remain associated with their upstream notices in the separate evidence collection.
+このソースパッケージには、Reader の受け入れテストのうち、オフラインで再現できる一部を収録しています。参照実装の配布物全体、写真コーパス、ネイティブ検証アーカイブ、コンパイル済みバイナリー、非公開の受け入れ記録は含みません。同梱する固定入力のファイル単位の出典は [THIRD_PARTY.md](../THIRD_PARTY.md) に記載しています。除外した写真と上流の通知文の対応は、別の検証資料に保持しています。
 
-Test counts below describe different, sometimes overlapping controls. They must not be added into one independent population. Successful runs establish only their stated scope. No row establishes a formal correctness proof or full normative QR conformance.
+以下のテスト件数は異なる検証群を表し、重複する場合もあります。独立した単一の母集団として合算してはいけません。成功した実行が確認するのは、明示した範囲だけです。形式的な正しさの証明や、QR 規格への全面的な適合を確立する行はありません。
 
-## Tests included in the source package
+<a id="tests-included-in-the-source-package"></a>
+## ソースパッケージに含むテスト
 
-Run `make test` for the C++ core tests and Python standard-library evaluator gate, or `make test-core` for C++ only. CMake's `SPECQR_BUILD_TESTS=ON` enables the six standalone C++ tests. `tests/run_ci.py` additionally checks the gate and a detached installed consumer; see the README for commands. Test assertions remain enabled in the CMake test targets, including Release builds.
+`make test` は C++ コアのテスト、Python 標準ライブラリーによる評価器の検証、文書の表記検証を実行します。C++ だけを実行する場合は `make test-core` を使います。表記だけを検証する場合は `make test-writing` を使います。CMake の `SPECQR_BUILD_TESTS=ON` は、独立した 6 件の C++ テストを有効にします。`tests/run_ci.py` は、評価器と、ソースツリーから切り離したインストール済みライブラリーの利用側プログラムも検証します。コマンドは README を参照してください。CMake のテストターゲットでは、Release ビルドを含め、アサーションを有効にしています。
 
-| Included test | Purpose |
+| 同梱テスト | 目的 |
 | --- | --- |
-| `api_tests` | Public input validation and basic API behavior. |
-| `payload_rs_tests` | Fixed independently encoded RS vectors, deterministic correction controls, payload/metadata boundaries and malformed parser/RS inputs. |
-| `fuzz_smoke` | Fixed seed; 20,000 random public grids and 1,000 small random images by default. A finite smoke run, not a coverage-guided campaign. |
-| `image_boundary_tests` | Image extent, stride, overflow, limits and boundary behavior. |
-| `grid_padding_tests` | One included generated grid, default padding compatibility and strict rejection behavior. |
-| `fnc1_public_tests` | Fixed independently encoded FIRST/SECOND FNC1 inputs through the public grid API. |
-| `evaluator_gate_tests.py` | Eighteen mocked adapter and failure-gate controls; harness behavior, not QR algorithm coverage. |
+| `api_tests` | 公開入力の検証と基本的な API の動作。 |
+| `payload_rs_tests` | 独立したエンコーダーによる固定 RS ベクトル、決定的な訂正テスト、ペイロード・メタデータの境界、不正な解析入力・RS 入力。 |
+| `fuzz_smoke` | 固定シードを使用。既定ではランダムな公開グリッド 20,000 件と小さなランダム画像 1,000 件。有限のスモークテストであり、カバレッジ誘導型のキャンペーンではない。 |
+| `image_boundary_tests` | 画像範囲、ストライド、オーバーフロー、上限、境界での動作。 |
+| `grid_padding_tests` | 同梱する生成済みグリッド 1 件、既定のパディング互換性、厳格設定での拒否動作。 |
+| `fnc1_public_tests` | 独立したエンコーダーによる固定 FIRST/SECOND FNC1 入力を、公開グリッド API から検証。 |
+| `evaluator_gate_tests.py` | 模擬アダプターと失敗判定の 18 件の検証。対象はテスト実行系の動作であり、QR アルゴリズムの網羅性ではない。 |
+| `tests/test_writing.py` と `tools/verify_writing.py` | 表記検査器自体のテストと、文書・CI の表示文章の表記検証。対象は文書と検査器の動作であり、QR アルゴリズムの網羅性ではない。 |
 
-`tests/rs_vectors.inc` is fixed output from qrcode 8.2. Its optional regeneration script requires that exact independently installed reference; normal tests use the committed vectors and need no reference encoder. Other fixed inputs also retain their generating/reference versions in the provenance documentation. Byte-for-byte fixture regeneration and independent decoder comparisons are separate activities from running these offline tests.
+`tests/rs_vectors.inc` は qrcode 8.2 の固定出力です。任意で使用できる再生成スクリプトには、その厳密なバージョンを別途インストールした参照実装が必要です。通常のテストはコミット済みのベクトルを使うため、参照エンコーダーは不要です。ほかの固定入力についても、生成・参照に使ったバージョンを出典文書に記録しています。テストデータのバイト単位での再生成や独立したデコーダーとの比較は、これらのオフラインテストの実行とは別の作業です。
 
-`make test-reference` is optional and requires the full separately retained comparison corpus and reference adapters. Its results must not be inferred from passing the included subset. `make sanitize` exercises the finite core suite under supported address/undefined-behavior sanitizer runtimes; leak detection support varies by platform.
+`make test-reference` は任意の検証で、別途保持している比較コーパス全体と参照アダプターが必要です。同梱する一部のテストの成功から、その結果を推定してはいけません。`make sanitize` は、対応する AddressSanitizer と UndefinedBehaviorSanitizer のランタイムで有限のコアテスト群を実行します。リーク検出への対応はプラットフォームによって異なります。
 
-The CI workflow and its command driver are part of this candidate. Local command validation and historical native evidence are reported separately; configuration alone does not mean that new hosted CI jobs have executed.
+CI ワークフローと実行スクリプトもソースに含まれています。表記検証は `tests/run_ci.py` の製品検証とは別の CI ステップで実行します。ローカルでのコマンド検証、以前のネイティブ検証、公開後のホスト型 CI の実行結果は区別して記録しています。設定が存在することだけで、そのジョブを実行済みとはみなしません。
 
-## Local publication-preparation validation
+<a id="local-publication-preparation-validation"></a>
+## 公開準備時のローカル検証
 
-The clean source package was built on Linux x86_64 with GNU C++ 14.2.0, Python 3.12.14 and the previously pinned CMake/CTest 3.31.6. The Make `all test` path passed; CMake passed all six assertion-enabled CTests and all eighteen evaluator controls. An installed static library was moved to a new prefix, then a detached consumer compiled using only its installed public header and library. It verified exact grid bytes and metadata, strict-padding rejection, blank rejection, and exact bytes from a locally rendered grayscale image.
+クリーンなソースパッケージを Linux x86_64、GNU C++ 14.2.0、Python 3.12.14、既に固定参照としていた CMake/CTest 3.31.6 でビルドしました。Make の `all test` は成功し、CMake ではアサーションを有効にした 6 件の CTest と、評価器の 18 件の検証がすべて成功しました。インストールした静的ライブラリーを新しい接頭辞のディレクトリーへ移動し、ソースツリーから切り離した利用側プログラムを、インストール済みの公開ヘッダーとライブラリーだけでコンパイルしました。グリッドのバイト列とメタデータの完全一致、厳格なパディング設定での拒否、空白入力の拒否、ローカルで描画したグレースケール画像のバイト列の完全一致を確認しています。
 
-The Linux `make sanitize` command passed the same finite core suite with ASan, UBSan and leak checking enabled, including 54,639 payload/RS checks, 20,000 public random grids and 1,000 small random images, 158 image-boundary checks and 744 FNC1 checks. The public malformed-input run returned no decoded outputs; sanitizer stderr was empty. Eight mocked sanitizer-option portability controls also passed. These reruns overlap the historical tests and are not additional independent populations or a coverage-guided campaign.
+Linux の `make sanitize` は、ASan、UBSan、リーク検出を有効にした同じ有限のコアテスト群で成功しました。ペイロード・RS の 54,639 件、公開 API へのランダムグリッド 20,000 件と小さなランダム画像 1,000 件、画像境界の 158 件、FNC1 の 744 件を含みます。公開 API を通した不正入力の実行では復号結果がなく、サニタイザーの標準エラー出力は空でした。模擬環境によるサニタイザー設定の移植性検証も 8 件すべて成功しました。これらの再実行は以前のテストと重複し、追加の独立した母集団でも、カバレッジ誘導型のキャンペーンでもありません。
 
-The first CI-driver execution used CTest's newer `--test-dir` option. The final driver runs CTest with the build directory as its working directory to preserve the documented CMake 3.16 interface; both corrected invocations passed against unchanged binaries. The original run and corrected-command records are retained separately. CMake 3.16 itself and the newly configured hosted macOS/Windows jobs were not executed in this preparation pass. The workflow pins [actions/checkout v4.2.2](https://github.com/actions/checkout/commit/11bd71901bbe5b1630ceea73d27597364c9af683), grants read-only repository-content permission and disables persistent checkout credentials.
+最初の CI 実行スクリプトでは、CTest の比較的新しい `--test-dir` オプションを使用していました。最終版は、文書に記載した CMake 3.16 のインターフェイスを維持するため、ビルドディレクトリーを作業ディレクトリーとして CTest を実行します。修正した 2 か所の呼び出しは、変更していないバイナリーに対して成功しました。最初の実行と修正後のコマンドの記録は、別々に保持しています。この準備段階では、CMake 3.16 自体と、新たに設定したホスト型 macOS・Windows ジョブは実行していません。ワークフローは [actions/checkout v4.2.2](https://github.com/actions/checkout/commit/11bd71901bbe5b1630ceea73d27597364c9af683) を固定し、リポジトリーの内容に対する読み取り権限だけを付与し、チェックアウト時の認証情報の永続保存を無効にしています。
 
-## Broader acceptance evidence retained separately
+## 公開コミットの CI と新規クローン検証
 
-The accepted image implementation's existing checks include 1,535 product/reference fixture gates, 54,639 payload/RS checks, 744 public FNC1 checks, 158 image-boundary checks, budget/multiplicity/diagnostic controls and a detached public-header/static-library consumer. Linux AddressSanitizer and UndefinedBehaviorSanitizer runs included leak checking. A finite public malformed-input run used 20,000 grids and 1,000 small images with no decoded outputs. A coverage-guided campaign was not executed and is not included in these claims.
+最終レビュー後に公開したコミット `c7dfc6918d621d45830701b62c7a75ccd2ba965f` では、[GitHub Actions の実行](https://github.com/SpecQR/SpecQR-Reader/actions/runs/38248190279) が成功しました。`ubuntu-24.04`、`macos-14`、`windows-2022` の移植性確認 3 ジョブと、Linux のサニタイザー確認 1 ジョブの計 4 ジョブが、すべて成功で終了しています。これは同梱するオフライン範囲の検証であり、外部比較コーパス全体を再実行した結果ではありません。
 
-The October 12 acceptance follow-up added:
+さらに、認証情報を使わずに公開リポジトリーを新規クローンし、コミットとツリーが一致することを確認しました。このクローンで 6 件のコア CTest、18 件の評価器検証、移設後のインストール済みライブラリーを使う独立した利用側プログラムが成功しています。ホスト型 CI のログには成功段階の要約が残っていますが、成功した各子プロセスの詳細出力はホスト側の成果物にはありません。Linux の新規クローン検証では、コマンド出力全体を別の検証資料に保存しています。
 
-| Check | Outcome | Interpretation |
+以上は公開済みの同コミットに対する記録です。日本語中心への文書更新の検証・公開状態とは区別します。ネイティブ Windows ARM64 ABI や CMake 3.16 自体の実行確認を追加したものではありません。
+
+<a id="broader-acceptance-evidence-retained-separately"></a>
+## 別途保持している広範な受け入れ検証資料
+
+受け入れ済みの画像実装に対する既存の検証には、製品・参照実装のテストデータ判定 1,535 件、ペイロード・RS の 54,639 件、公開 FNC1 の 744 件、画像境界の 158 件、処理予算・重複数・診断の検証、公開ヘッダーと静的ライブラリーを使う独立した利用側プログラムが含まれます。Linux の AddressSanitizer と UndefinedBehaviorSanitizer の実行にはリーク検出も含めました。公開 API を通す有限の不正入力テストでは、グリッド 20,000 件と小さな画像 1,000 件を使用し、復号結果はありませんでした。カバレッジ誘導型のキャンペーンは実行しておらず、これらの主張には含めません。
+
+10 月 12 日の追加受け入れ検証では、次を確認しました。
+
+| 検証 | 結果 | 解釈 |
 | --- | --- | --- |
-| Capacity/BCH/orientation | 1,315/1,315 passed | Current core and deterministic inputs from a pinned independent encoder; includes all versions in near-capacity cases. |
-| Unequal-block public corruption | 40/40 passed | Eight block configurations, five patterns each; exact bytes and correction counts through `decode_grid()`. |
-| Allocation controls | 184/184 matched documented behavior | Four baselines and 180 ordinary allocation injections: 67 resource errors, 21 eventual successes, 92 escaped `std::bad_alloc` outcomes. |
-| Corrupted-image fallback | Twelve Reader and three reference calls returned empty | Three fixed development corruptions; recover-or-reject controls, not guaranteed QR-free images. |
-| Large negatives | Five final outputs empty | Fifteen core invocations via repeat-three; two final searches reported work limits. |
-| Evaluator portability | Eighteen controls passed | One path-comparison fix; all 46 assertion-call expressions unchanged. |
+| 容量・BCH・向き | 1,315/1,315 件が成功 | 現行コアと、固定参照の独立したエンコーダーによる決定的な入力。容量上限に近いケースで全バージョンを含む。 |
+| 不均等ブロックの破損を公開 API で検証 | 40/40 件が成功 | 8 種類のブロック構成で各 5 パターン。`decode_grid()` を通じてバイト列と訂正数の完全一致を確認。 |
+| メモリ確保の検証 | 184/184 件が文書化した動作と一致 | 基準ケース 4 件と通常のメモリ確保への失敗注入 180 件。資源エラー 67 件、最終的な成功 21 件、外へ送出された `std::bad_alloc` 92 件。 |
+| 破損画像の代替探索 | Reader の 12 回と参照実装の 3 回の呼び出しで結果が空 | 開発時の固定破損データ 3 件。回復または拒否の検証であり、QR がないと保証した画像ではない。 |
+| 大きな非対象画像 | 最終出力 5 件が空 | 各 3 回の反復による計 15 回のコア呼び出し。最終探索の 2 件は処理上限を報告。 |
+| 評価器の移植性 | 18 件が成功 | パス比較を 1 か所修正。アサーション呼び出し式 46 個はすべて変更なし。 |
 
-Twenty-three allocation resource errors retained exact partial symbols with the work-limit flag. The allocation controls were release-build tests of ordinary allocations; they do not test every allocator path and are not a new sanitizer or coverage-guided run. An initial checker incorrectly required all errors to have empty symbols; its partial record and the corrected checker are preserved separately. No wrong payload, unexpected exception type or tracked ordinary-allocation leak was found in the final stated scope.
+メモリ確保に関する資源エラーのうち 23 件では、正確な部分シンボルと処理上限フラグを保持しました。この検証は Release ビルドで通常のメモリ確保を対象としており、すべてのアロケーター経路を試すものでも、新しいサニタイザー実行やカバレッジ誘導型実行でもありません。初期の検証器は、すべてのエラーでシンボルが空であることを誤って要求していました。その途中記録と修正した検証器は、別々に保存しています。最終的に明示した範囲では、誤ったペイロード、想定外の例外型、追跡対象の通常のメモリ確保のリークは見つかりませんでした。
 
-The original capacity report described an older source revision. The 1,315-case acceptance rerun explicitly binds the current core; historical evidence has not been silently promoted to the newer source. Corruption tests cover representative block boundaries and correction patterns, not every combination of version, mask and damage.
+元の容量レポートは古いソース版を対象としていました。受け入れ時の 1,315 ケースの再実行は現行コアに明示的に対応付けており、以前の証拠を説明なしに新しいソースの結果として扱っていません。破損テストが対象とするのは、代表的なブロック境界と訂正パターンです。バージョン、マスク、損傷の全組み合わせではありません。
 
-Image measurements and their confidence limits are summarized in [limitations](limitations.md). The newer positive photo comparisons have unknown independent payload truth. All fifty older photos are now development regressions, not new holdouts.
+画像の測定結果と解釈上の限界は、[制約](limitations.md) にまとめています。新しい読み取り対象写真の比較では、ペイロードの独立した正解値が不明です。既存の写真 50 枚はすべて開発用の回帰テストとなっており、新たな未使用評価データではありません。
 
-## Independent parent acceptance and native evidence
+<a id="independent-parent-acceptance-and-native-evidence"></a>
+## 親担当の独立した受け入れ確認とネイティブ検証資料
 
-The cloud executor's initial native archive downloads and permitted retries failed at transfer. It recorded the failure and attributed native results to the parent rather than claiming local inspection. The parent subsequently obtained and independently verified both native archives, matched all nine runtime/header/CLI source hashes, confirmed the exact one-line Windows harness patch and all 46 unchanged assertions, reran eighteen Linux harness controls and rebuilt the public grid driver to pass all forty corruption cases.
+クラウド実行環境での最初のネイティブ検証アーカイブの取得と、許可された再試行は、転送に失敗しました。この失敗を記録し、ネイティブでの結果は親担当からの報告として扱い、ローカルで検査したとは主張していません。その後、親担当は両方のネイティブ検証アーカイブを取得して独立に検証し、ランタイム・ヘッダー・CLI の全 9 ファイルのソースハッシュを照合しました。Windows のテスト実行系の厳密な 1 行の修正と、変更されていない 46 個すべてのアサーションを確認し、Linux でテスト実行系の 18 件の検証を再実行しました。また、公開グリッドの実行プログラムを再ビルドし、破損テストの全 40 ケースが成功しました。
 
-The parent also checked the 714 listed archive payload entries, the raw 1,315 capacity records and 184 allocation outcomes. The acceptance source manifest has **38 entries**, including additional documentation; it must not be confused with the earlier 35-entry native/source manifest scope. This source-only publication-preparation package has its own explicit file inventory and excludes private evidence; it is not the same archive.
+親担当は、アーカイブ内の一覧に記載された 714 項目、容量テストの生記録 1,315 件、メモリ確保の結果 184 件も確認しました。受け入れ時のソースマニフェストは追加文書を含む **38 項目**であり、それ以前のネイティブ検証・ソースのマニフェストの 35 項目とは区別する必要があります。ソースだけを含む公開パッケージには、独自の明示的なファイル一覧があり、非公開の検証資料を除外しています。同じアーカイブではありません。
 
-Mac evidence validates the improved image candidate within the supplied native report's scope. Windows evidence covers a GCC x64 build running under Windows ARM64 emulation: six assertion-enabled CTests, eighteen evaluator controls, 1,487 main vectors and an installed independent consumer. Fourteen successful partial searches retained the exact expected byte multisets and work flags. Native Windows ARM64 ABI is untested. The compact native archives do not contain executable bytes for independent binary-byte comparison.
+Mac の資料は、提供されたネイティブレポートの範囲で改良した画像候補を検証しています。Windows の資料が対象とするのは、Windows ARM64 のエミュレーション上で動作する GCC x64 ビルドで、アサーションを有効にした 6 件の CTest、評価器の 18 件、主要ベクトル 1,487 件、インストール済みライブラリーを使う独立した利用側プログラムを含みます。成功した部分探索 14 件では、期待どおりのバイト列の多重集合と処理上限フラグを保持しました。ネイティブ Windows ARM64 ABI は未検証です。コンパクトなネイティブ検証アーカイブには、バイナリーのバイト単位の独立比較に使える実行ファイルのバイト列は含まれていません。
 
-The native-evidence reconciliation gate is now closed by the parent's inspection. This does not imply that those archives were downloaded into the cloud executor, or that unsupported native/compiler/sanitizer lanes were tested. No new blocking decoder defect was found for the bounded experimental scope. The runtime/header/CLI source remains unchanged; publication preparation changes packaging, documentation and development support. Product version remains 0.1.1.
+親担当の検査によって、ネイティブ検証資料の照合条件は満たされています。これは、それらのアーカイブをクラウド実行環境に取得したことや、未対応のネイティブ環境・コンパイラー・サニタイザーの組み合わせを試したことを意味しません。明示した実験範囲では、受け入れを妨げる新たなデコーダーの不具合は見つかりませんでした。ランタイム・ヘッダー・CLI のソースは変更しておらず、公開準備で変更したのはパッケージ構成、文書、開発支援です。製品バージョンは 0.1.1 のままです。
 
-## Feature-level status
+<a id="feature-level-status"></a>
+## 機能単位の実装・検証状況
 
-| Feature | Implemented and exercised | Formal proof | Remaining limits |
+| 機能 | 実装済み・実行済みの範囲 | 形式証明 | 残る制約 |
 | --- | --- | --- | --- |
-| Model 2 grids, versions 1–40 | Independent encoders, capacity and malformed controls | None | Full normative conformance and every malformed input unverified. |
-| RS correction/deinterleaving | Independent blocks and public unequal-block corruption controls | None | No erasure API or universal detection beyond correction radius. |
-| Bytes, segments, ECI, FNC1, Structured Append metadata | Fixed independent FNC1 and bounded parser tests | None | No transcoding, registry validation or append reassembly. |
-| Gray/RGB planar image detection | Synthetic categories, development photos, new scene comparisons | None | General recall, curved surfaces and new-photo exact truth unverified. |
-| Multiple physical symbols | Multiplicity and duplicate-payload controls | None | Close/overlapping/nested arrangements and complete discovery unverified. |
-| Work and input limits | Extent checks, finite-loop audits, allocation and negative controls | None | No heap quota, hard deadline, cancellation or `noexcept`. |
-| Diagnostics | On/off result invariance and allocation controls | None | Arbitrary memory exhaustion and stable trace schema not promised. |
-| Portable consumer interface | Cloud and reconciled native consumer evidence | None | Unrecorded platforms, including Windows ARM64 ABI, unverified. |
+| Model 2 グリッド、バージョン 1〜40 | 独立したエンコーダー、容量テスト、不正入力テスト | なし | 規格への全面的な適合と、すべての不正入力は未検証。 |
+| RS 訂正・デインターリーブ | 独立したブロックと、公開 API での不均等ブロックの破損テスト | なし | 消失位置を指定する API はなく、訂正範囲外で必ず誤りを検出できるわけではない。 |
+| バイト列、セグメント、ECI、FNC1、Structured Append のメタデータ | 独立した固定 FNC1 入力と、範囲を限定したパーサーのテスト | なし | 生のメタデータを保持する。文字コード変換、登録簿に対する検証、分割シンボルの再構成は行わない。 |
+| グレースケール・RGB の平面画像検出 | 合成データの分類別テスト、開発用写真、新規シーンの比較 | なし | 一般的な再現率、曲面、新規写真の厳密な正解値は未検証。 |
+| 複数の物理シンボル | 重複数と同一ペイロードの検証 | なし | 近接・重複・入れ子状の配置と、すべてのシンボルの発見は未検証。 |
+| 処理量と入力の上限 | 範囲確認、有限ループの監査、メモリ確保と非対象入力の検証 | なし | ヒープ使用量の上限、厳密な締め切り、キャンセル、`noexcept` の保証はない。 |
+| 診断 | 有効・無効で結果が変わらないことと、メモリ確保の検証 | なし | 任意のメモリ枯渇への対応と、安定したトレース形式は保証しない。 |
+| 移植可能な利用側インターフェイス | クラウドと照合済みのネイティブ検証、公開 CI、新規クローンの利用側検証 | なし | Windows ARM64 ABI を含む、実行記録のない環境は未検証。 |
 
-The user has approved distribution under SpecQR using MIT. Final parent review of the assembled package remains a gate before repository creation or a public push; no repository, tag, release or public upload has been performed during preparation.
+利用者は SpecQR 名義で MIT による配布を承認済みです。組み立てたパッケージに対する親担当の最終レビューを経て、コミット `c7dfc6918d621d45830701b62c7a75ccd2ba965f` を公開し、上記の CI と新規クローン検証を完了しました。この公開作業ではタグやリリースを作成していません。日本語中心への文書更新は、この公開済み実装に対する別の変更候補です。

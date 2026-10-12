@@ -1,16 +1,17 @@
-# Third-party provenance and notices
+<a id="third-party-provenance-and-notices"></a>
+# 第三者由来の出典と通知文
 
-Newly authored SpecQR Reader code and documentation use the [MIT license](LICENSE), with the established `Copyright (c) 2026 SpecQR contributors` attribution. The license text matches [SpecQR at the pinned reference commit](https://github.com/SpecQR/SpecQR/blob/16efc6c0a8e397c9df3d051d20fce6c1eebdfad7/LICENSE). The notices below retain their respective upstream scope; the project MIT license does not replace them.
+新規作成した SpecQR Reader のコードと文書には、[MIT ライセンス](LICENSE)を適用し、既存の `Copyright (c) 2026 SpecQR contributors` の帰属表記を使用します。ライセンス本文は、[固定参照コミットの SpecQR](https://github.com/SpecQR/SpecQR/blob/16efc6c0a8e397c9df3d051d20fce6c1eebdfad7/LICENSE) と一致しています。以下の通知文には、それぞれの上流での適用範囲を維持します。プロジェクトの MIT ライセンスで置き換えるものではありません。
 
-The C++17 Reader uses the standard library. No third-party encoder, decoder, file codec or camera implementation is compiled or linked into the product. The source package includes original implementation/test code, factual QR parameter tables, and fixed synthetic test inputs. Its normal tests run from the checked-in `.inc` and `.grid` files without installing an external encoder or decoder.
+C++17 の Reader は標準ライブラリーを使用します。第三者のエンコーダー、デコーダー、ファイルコーデック、カメラ実装を製品へコンパイル・リンクしていません。ソースパッケージには、独自の実装・テストコード、仕様上の数値を収めた QR パラメーター表、固定の合成テスト入力を含みます。通常のテストはリポジトリー内の `.inc` と `.grid` ファイルから実行し、外部のエンコーダーやデコーダーのインストールは不要です。
 
-`src/qr_tables.hpp` contains numerical Model 2 block parameters, total codeword counts and alignment coordinates extracted from qrcode 8.2 and cross-checked with Segno 1.6.6. The two exact upstream license files are retained as source-provenance notices for that extraction/cross-check:
+`src/qr_tables.hpp` は、qrcode 8.2 から取り出して Segno 1.6.6 と照合した、Model 2 のブロックパラメーター、総符号語数、位置合わせ座標の数値を含みます。その抽出・相互照合の出典の通知文として、上流の厳密なライセンスファイル 2 件を保持しています。
 
-- [qrcode 8.2 notice](third_party/notices/qrcode-8.2-LICENSE.txt): BSD-3-Clause text and inherited MIT attribution as distributed in the pinned wheel.
-- [Segno 1.6.6 notice](third_party/notices/segno-1.6.6-LICENSE.txt): BSD-3-Clause text as distributed in the pinned wheel.
+- [qrcode 8.2 の通知文](third_party/notices/qrcode-8.2-LICENSE.txt)：固定した wheel に含まれる BSD-3-Clause の本文と、継承された MIT の帰属表記。
+- [Segno 1.6.6 の通知文](third_party/notices/segno-1.6.6-LICENSE.txt)：固定した wheel に含まれる BSD-3-Clause の本文。
 
-Synthetic fixture generation also used qrcode 8.2, Segno 1.6.6, ZXing Java core 3.5.3 (Apache-2.0) and libqrencode 4.1.1 (LGPL-2.1-or-later). The included fixture matrices and RS blocks encode locally specified test bytes. They do not contain those projects' implementation source or binaries. Exact tool versions, commits, artifact hashes, generation paths and fixture expectations are documented in [provenance](docs/provenance.md).
+合成テストデータの生成には、qrcode 8.2、Segno 1.6.6、ZXing Java core 3.5.3（Apache-2.0）、libqrencode 4.1.1（LGPL-2.1-or-later）も使用しました。同梱するテスト行列と RS ブロックは、ローカルで指定したテスト用バイト列を符号化しています。これらのプロジェクトの実装ソースやバイナリーは含みません。厳密なツールバージョン、コミット、成果物のハッシュ、生成手順、期待値は[出典文書](docs/provenance.md)に記載しています。
 
-The source package excludes third-party wheels/JARs/source distributions, comparison-decoder binaries, photographs, decoded photographic payloads and private evaluation archives. Historical ZXing photo replay inputs have their own retained upstream Apache-2.0 license, NOTICE and source/REUSE records in the separate validation archive. Their exclusion here is a package-scope choice, not a statement that they are unlicensed. Optional reference tooling or photo corpora must be obtained and managed separately with their applicable notices.
+このソースパッケージには、第三者の wheel・JAR・ソース配布物、比較用デコーダーのバイナリー、写真、写真から読み取ったペイロード、非公開の評価アーカイブは含めていません。過去の ZXing 写真再検証の入力には、上流の Apache-2.0 ライセンス、NOTICE、出典・REUSE 記録があり、別の検証アーカイブに保持しています。ここでの除外はパッケージの収録範囲に関する判断であり、ライセンスがないという意味ではありません。任意の参照ツールや写真コーパスは、適用される通知文とともに別途取得・管理する必要があります。
 
-No normative standard text is redistributed. The table sources identify earlier ISO/IEC 18004 table/annex data; this is indirect provenance. The implementation did not obtain the full ISO/IEC 18004:2024 normative clauses and does not claim complete standard conformance or formal correctness.
+規格の規定本文は再配布していません。表の出典は以前の ISO/IEC 18004 の表・附属書のデータを示しており、これは間接的な出典です。この実装では ISO/IEC 18004:2024 の規定本文全体を取得しておらず、規格への完全な適合や形式的な正しさを主張していません。

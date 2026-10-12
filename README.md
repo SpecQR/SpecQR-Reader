@@ -1,14 +1,21 @@
 # SpecQR Reader 0.1.1
 
-SpecQR Reader is a dependency-free C++17 reader for QR Model 2. It decodes caller-sampled module grids and searches grayscale or RGB images for planar symbols. It returns exact payload bytes and segment metadata, including ECI, FNC1 and Structured Append information.
+SpecQR Reader is a dependency-free C++17 reader for QR Code Model 2. It decodes caller-sampled module grids and searches grayscale or RGB images for planar symbols. It returns exact payload bytes and raw segment/control metadata, including ECI, FNC1 and Structured Append information.
 
-This is an experimental source review candidate intended for `SpecQR/SpecQR-Reader`. Newly authored project code is licensed under MIT. This repository contains the reviewed experimental source. Hosted CI and fresh public-clone validation are being verified. It has finite input and work limits, independently checked fixtures, and native portability evidence; it does not claim full QR conformance, formal correctness, or reliable decoding of every photograph.
+English entry points: [build commands](#build-and-test), [API contract and examples](docs/api.md), [limitations](docs/limitations.md) and [validation evidence](docs/validation.md). Detailed documentation is primarily in Japanese.
 
-The library uses only the C++17 standard library. C++17 permits a portable image-processing core and ordinary native integration without an interpreter or codec dependency; callers must manage buffer lifetimes and account for allocation failure. The optional command-line adapter reads PNM images and text grids. PNG/JPEG loading, cameras, text conversion and Structured Append reassembly belong in application adapters. Reed–Solomon correction is an internal Reader component, not a separate ECC API.
+SpecQR Reader は、QR Code Model 2 を対象とする実験段階の Reader です。新規に作成したコードと文書を MIT ライセンスで公開しています。入力サイズと処理量に上限を設け、独立した実装によるフィクスチャ確認とネイティブ環境での移植性検証を行っています。ただし、QR 仕様全体への適合、形式的な正しさ、あらゆる写真からの確実な読み取りを保証するものではありません。
 
-## Build and test
+公開済みの基準コミットは [`c7dfc6918d621d45830701b62c7a75ccd2ba965f`](https://github.com/SpecQR/SpecQR-Reader/commit/c7dfc6918d621d45830701b62c7a75ccd2ba965f) です。この基準ソースでは、[GitHub Actions の実行](https://github.com/SpecQR/SpecQR-Reader/actions/runs/38248190279) と公開リポジトリからの新規クローン検証が成功しています。今回の日本語文書変更に対する検証とは区別し、詳しい範囲を [検証記録](docs/validation.md) に記載しています。
 
-With a C++17 compiler, Make and Python 3:
+ライブラリが使用するのは C++17 標準ライブラリだけです。C++17 を選ぶことで、インタープリターや画像コーデックに依存せず、画像処理の中核を移植して一般的なネイティブアプリケーションへ組み込めます。一方、バッファーの寿命管理とメモリー確保失敗への対処は呼び出し側の責任です。任意のコマンドラインアダプターは PNM 画像とテキスト形式のグリッドを読み取ります。PNG/JPEG の読み込み、カメラ接続、文字列変換、Structured Append の再結合は、アプリケーション側のアダプターで行います。Reed–Solomon 訂正は Reader の内部構成要素であり、独立した ECC API ではありません。
+
+文書の基本言語は日本語です。英語の短い概要、正式名称、API 識別子、コード例を維持し、空白の細則はリンゴとデスクに合わせます。[言語・表記方針](docs/project-language.md) を参照してください。
+
+<a id="build-and-test"></a>
+## ビルドとテスト
+
+C++17 コンパイラー、Make、Python 3 がある環境では、次を実行します。
 
 ```sh
 make -j2 all
@@ -17,9 +24,9 @@ make test
 ./build/specqr-reader grid fixtures/grids/segno-v01-H-m0.grid
 ```
 
-`make test-core` runs the standalone C++ tests without Python. `make test-gate` runs the Python standard-library evaluator controls. `make test` runs both. Included fixture data is fixed; running these tests does not download or regenerate reference data. The optional `make test-reference` requires the separately retained full historical corpus and reference adapters, which this source package does not include.
+`make test-core` は Python を使わず、独立した C++ テストを実行します。`make test-gate` は Python 標準ライブラリだけを使い、評価ハーネスの対照テストを実行します。`make test-writing` は表記チェッカーのテストと文書の表記検査を実行します。`make test` は、この 3 種類を実行します。同梱フィクスチャのデータは固定されており、これらのテストで参照データをダウンロードしたり再生成したりすることはありません。任意の `make test-reference` には、別途保管している過去の完全なコーパスと参照アダプターが必要です。このソースパッケージには含まれていません。
 
-With CMake 3.16 or newer:
+CMake 3.16 以降を使う場合は、次を実行します。
 
 ```sh
 cmake -S . -B out -DCMAKE_BUILD_TYPE=Release -DSPECQR_BUILD_TESTS=ON
@@ -28,7 +35,7 @@ cmake --build out --config Release --parallel
 cmake --install out --config Release --prefix "$PWD/install"
 ```
 
-Tests are opt-in for CMake. `SPECQR_BUILD_TOOLS=OFF` and `SPECQR_BUILD_EXAMPLES=OFF` disable the optional command-line tool and example. The installed package is `SpecQRReader`; the imported target is `SpecQR::specqr_reader`:
+CMake ではテストを明示的に有効にします。`SPECQR_BUILD_TOOLS=OFF` と `SPECQR_BUILD_EXAMPLES=OFF` を指定すると、それぞれ任意のコマンドラインツールとサンプルを無効にできます。インストールされるパッケージ名は `SpecQRReader`、インポートするターゲット名は `SpecQR::specqr_reader` です。
 
 ```cmake
 find_package(SpecQRReader 0.1 REQUIRED CONFIG)
@@ -36,41 +43,41 @@ add_executable(my_reader main.cpp)
 target_link_libraries(my_reader PRIVATE SpecQR::specqr_reader)
 ```
 
-Set `CMAKE_PREFIX_PATH` to the installation prefix when configuring the consuming project. The public header is `<specqr/reader.hpp>`.
+利用側プロジェクトの構成時に、`CMAKE_PREFIX_PATH` をインストール先のプレフィックスへ設定します。公開ヘッダーは `<specqr/reader.hpp>` です。
 
-The cross-platform CI driver configures and builds CMake tests, runs the evaluator controls, installs the library, and builds a detached consumer against the relocated installation:
+複数のプラットフォームで共通の CI ドライバーは、CMake テストの構成とビルド、評価ハーネスの対照テスト、ライブラリのインストールを行います。さらに、インストール先を移動し、ソースツリーから独立した利用側プログラムをビルドします。
 
 ```sh
 python3 tests/run_ci.py --work-dir /absolute/path/to/new-ci-work
 ```
 
-Use the Python executable name available on your platform. The work directory must not exist yet and must be outside the source tree. A configured CI job is not evidence that a hosted job has run; current validation scope is recorded in [validation](docs/validation.md).
+Python の実行ファイル名は、使用するプラットフォームに合わせてください。作業ディレクトリには、まだ存在しない、ソースツリーの外側のパスを指定します。CI の設定だけでは実行の証拠になりません。実際に確認したコミットと検証範囲は [検証記録](docs/validation.md) を参照してください。
 
-On a supported compiler/runtime, `make sanitize` runs the finite core suite under AddressSanitizer and UndefinedBehaviorSanitizer. Leak checking defaults to enabled outside Darwin and disabled on Darwin because of the reported Apple runtime limitation; override with `SANITIZER_DETECT_LEAKS=0` or `1` as appropriate. Sanitizer availability depends on the chosen toolchain.
+対応するコンパイラーとランタイムでは、`make sanitize` により、有限個の中核テストを AddressSanitizer と UndefinedBehaviorSanitizer の下で実行します。リーク検査は Darwin 以外では既定で有効、Darwin では報告済みの Apple ランタイムの制約により既定で無効です。必要に応じて `SANITIZER_DETECT_LEAKS=0` または `1` で上書きできます。サニタイザーを使用できるかどうかは、選択したツールチェーンに依存します。
 
-## Use the Reader
+## Reader の使い方
 
-`decode_grid()` accepts one byte per module: `0` is light and `1` is dark, with no quiet zone. Model 2 sizes are 21–177 modules in steps of four. `read_image()` accepts an interleaved, top-to-bottom, 8-bit grayscale or RGB buffer and returns a list of physical symbols. Input buffers remain caller-owned and are not retained after the call.
+`decode_grid()` は、明モジュールを `0`、暗モジュールを `1` とする、モジュール当たり 1 バイトの入力を受け取ります。クワイエットゾーンは含めません。QR Code Model 2 の一辺は 21～177 モジュールで、4 モジュール刻みです。`read_image()` は、行が上から下へ並ぶ 8 ビットのグレースケール画像、または RGB 成分が交互に並ぶ画像バッファーを受け取り、画像内の各位置にあるシンボルの一覧を返します。入力バッファーの所有権は呼び出し側にあり、呼び出し終了後にライブラリが保持することはありません。
 
-Payloads are byte vectors, not Unicode strings. Segment boundaries and ECI assignments are preserved. FNC1 alphanumeric `%` escapes remain literal bytes for the application to interpret. See the [API contract](docs/api.md) and [consumer example](examples/consumer.cpp).
+ペイロードは Unicode 文字列ではなく、バイト列です。セグメント境界と ECI 割り当てを保持します。FNC1 の英数字モードにおける `%` のエスケープも、そのままのバイト列として残し、解釈をアプリケーションへ委ねます。[API の契約](docs/api.md) と [利用例](examples/consumer.cpp) を参照してください。
 
-Inspect an image result's `error`, `symbols` and `work_limit_reached` together. A successful result may have incomplete search; an allocation-related `resource_limit` result may retain valid partial symbols. Neither a successful result nor a false work-limit flag certifies that every symbol was found. These APIs are not `noexcept`: allocation exhaustion can propagate `std::bad_alloc`.
+画像の結果は、`error`、`symbols`、`work_limit_reached` を一緒に確認してください。成功した結果でも探索が未完了の場合があり、メモリー確保に関連する `resource_limit` の結果に有効な部分結果のシンボルが残る場合もあります。成功したことも、処理量制限のフラグが偽であることも、全シンボルの検出を保証しません。これらの API は `noexcept` ではなく、メモリー確保に失敗すると `std::bad_alloc` が伝播する場合があります。
 
-The command-line adapter prints binary-safe JSON:
+コマンドラインアダプターは、バイナリーデータを損なわずに表現する JSON を出力します。
 
 ```sh
 ./build/specqr-reader image input.pgm --trace
 ./build/specqr-reader image input.ppm --invert --repeat 3
 ```
 
-Image input must be binary P5/P6 PNM with maximum sample value 255. The adapter supports `--trace`, `--invert`, `--strict-padding` and `--repeat N`. Grid files contain the decimal side length on the first line, followed by exactly that many rows of `0`/`1` characters. Exit status 0 means successful status; status 2 means rejection, resource exhaustion or an input error. Always inspect the JSON for partial symbols and work flags. `bytes_hex` is the payload representation; no decoded URL or command is executed.
+画像入力は、最大サンプル値が 255 のバイナリー P5/P6 PNM に限ります。アダプターは `--trace`、`--invert`、`--strict-padding`、`--repeat N` に対応しています。グリッドファイルは、先頭行に一辺の長さを十進数で記し、その後に指定した行数ちょうどの `0`/`1` の文字列を並べます。終了ステータス 0 は成功、2 は拒否、資源の枯渇、入力エラーのいずれかを表します。部分結果のシンボルと処理量フラグは、必ず JSON で確認してください。ペイロードは `bytes_hex` で表現し、読み取った URL やコマンドを実行することはありません。
 
-## Scope and evidence
+## 対応範囲と検証根拠
 
-The source package includes deterministic unit, public-API, malformed-input smoke and harness controls. Broader acceptance used independent encoders/decoders and photographs retained separately with provenance and notices. The included suite is a reproducible subset of that evidence, not a replacement for the full comparison corpus.
+ソースパッケージには、決定的な単体テスト、公開 API テスト、不正入力のスモークテスト、評価ハーネスの対照テストを含めています。より広い受け入れ検証では、独立したエンコーダーとデコーダー、および来歴と権利表示を付けて別途保管した写真を使用しました。同梱のテスト群は、その検証根拠のうち再現可能な一部分であり、完全な比較コーパスの代替ではありません。
 
-Measured image results include 73 exact and seven empty outcomes among 80 newer synthetic positives, and 47 exact and three empty outcomes among 50 older development photographs. Those corpora produced no wrong or extra outputs in their finite checks. Some successful synthetic searches were work-limited. These counts are not general recall or false-decode rates; see [limitations and measured conditions](docs/limitations.md).
+画像の測定結果には、追加の合成陽性画像 80 件中、完全一致 73 件、出力なし 7 件、および以前の開発用写真 50 件中、完全一致 47 件、出力なし 3 件が含まれます。これらの有限の検査では、誤った出力も余分な出力もありませんでした。合成画像で成功した探索の一部は、処理量の上限に達していました。これらの件数から一般的な再現率や誤復号率は求められません。[制約と測定条件](docs/limitations.md) を参照してください。
 
-The parent acceptance review independently reconciled Mac and Windows evidence with all nine runtime/header/CLI source hashes. Windows validation used an x64 GCC build under Windows ARM64 emulation; native Windows ARM64 ABI remains untested. Earlier download failures in the cloud executor were transfer failures, not failing native decoder runs. They do not remain an acceptance gate after the parent's archive inspection. [Validation](docs/validation.md) records the scope and attribution.
+受け入れレビューでは、Mac と Windows の検証根拠を、実行時コード、ヘッダー、CLI の全 9 ファイルのハッシュと独立に照合しました。Windows の検証は、Windows ARM64 のエミュレーション下で動く x64 GCC ビルドを用いており、ネイティブの Windows ARM64 ABI は未検証です。以前にクラウド実行環境で発生したダウンロード失敗は、転送の失敗であり、ネイティブ環境でのデコーダー実行の失敗ではありません。受け入れレビューでアーカイブを確認した後は、未解決の受け入れ条件には数えていません。[検証記録](docs/validation.md) に範囲と検証元を記載しています。
 
-The [MIT license](LICENSE) uses the established `Copyright (c) 2026 SpecQR contributors` attribution. It applies to newly authored project code and documentation. See [THIRD_PARTY.md](THIRD_PARTY.md) for the separately scoped notices and generated-data provenance.
+[MIT ライセンス](LICENSE) は、既存の `Copyright (c) 2026 SpecQR contributors` の帰属表示を使用し、新規に作成したコードと文書に適用します。個別に適用される権利表示と生成データの来歴は、[第三者由来の情報](THIRD_PARTY.md) を参照してください。

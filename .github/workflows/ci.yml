@@ -1,4 +1,4 @@
-name: Reader source checks
+name: Reader ソース検査
 on:
   push:
   pull_request:
@@ -7,6 +7,7 @@ permissions:
   contents: read
 jobs:
   portable:
+    name: 移植性検査 (${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
@@ -17,13 +18,19 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: Build, test and consume relocated installation
+      - name: 表記チェッカーのテスト
+        run: python tests/test_writing.py
+      - name: 文書の表記を検査
+        run: python tools/verify_writing.py
+      - name: ビルド・テスト・再配置したインストールの利用
         run: python tests/run_ci.py --work-dir "${{ runner.temp }}/specqr-reader-ci"
   linux-sanitizers:
+    name: Linux サニタイザー検査
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - run: make -j2 sanitize
+      - name: ASan / UBSan でコアを検査
+        run: make -j2 sanitize
