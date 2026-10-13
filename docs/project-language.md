@@ -2,7 +2,7 @@
 
 SpecQR Reader の公開文書、開発記録、GitHub 上の説明は日本語を中心にします。検索と導入の入口として、README 冒頭の短い English summary、正式名称、API 名、ビルドコマンドは維持します。
 
-基本方針は [SpecQR の言語方針（固定コミット）](https://github.com/SpecQR/SpecQR/blob/16efc6c0a8e397c9df3d051d20fce6c1eebdfad7/docs/project-language.md) に従います。空白の細則は、利用者が指定した Ringodesk の規則を優先します。SpecQR 側の助数詞・日付・百分率の例と異なり、本文では `10 件`、`2026 年 10 月 12 日`、`95 %` と書きます。
+統合基準は `GITHUB_WRITING_RULES.md` の 1.0 版（2026 年 10 月 12 日）です。日本語中心の基本方針の出典は [SpecQR の言語方針（固定コミット）](https://github.com/SpecQR/SpecQR/blob/16efc6c0a8e397c9df3d051d20fce6c1eebdfad7/docs/project-language.md) で、空白の細則は「リンゴとデスク」の規則を優先します。参照先の SpecQR の助数詞・日付・百分率の例と異なり、本文では `10 件`、`2026 年 10 月 12 日`、`95 %` と書きます。
 
 ## 適用範囲と保護する内容
 
