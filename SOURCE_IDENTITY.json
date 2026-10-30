@@ -1,7 +1,7 @@
 {
   "product": "SpecQR Reader",
   "version": "0.1.1",
-  "runtime_identity": "Identical to accepted October10 image implementation; publication preparation changes build/development support and documentation only.",
+  "runtime_identity": "Core library, public header and native CLI retain the accepted October 10 implementation. The experimental browser adapter compiles the same core into WebAssembly; it adds a worker UI and does not change recognition algorithms.",
   "files": [
     {
       "path": "include/specqr/reader.hpp",

@@ -1,0 +1,555 @@
+{
+  "version": 1,
+  "description": "Original 6 grid + 6 image acceptance fixtures plus browser codec variants.",
+  "samples": [
+    {
+      "id": "binary-nul-invalid-utf8",
+      "label": "binary-nul-invalid-utf8（行列）",
+      "kind": "grid",
+      "format": "grid",
+      "path": "binary-nul-invalid-utf8.grid",
+      "sha256": "47e4a6b23c98c2efc97beb618d6d5217e8869a3149f14304c222c846d4ad2670",
+      "acceptance": true,
+      "rawPath": "binary-nul-invalid-utf8.raw",
+      "rawSha256": "017b7d0829127507defbc7317324add0537b8745e066f4424e4b0c623bab019c",
+      "width": 21,
+      "height": 21,
+      "stride": 21,
+      "channels": 1,
+      "expectedSymbols": [
+        {
+          "bytes_hex": "00ff014c0d",
+          "version": 1,
+          "ec_level": "L",
+          "mask": 5,
+          "fnc1": 0,
+          "fnc1_application_indicator": -1,
+          "structured_append": {
+            "present": false,
+            "index": 0,
+            "count": 0,
+            "parity": 0
+          },
+          "noncanonical_padding": false,
+          "segments": [
+            {
+              "mode": 4,
+              "bytes_hex": "00ff014c0d",
+              "eci": -1,
+              "bit_offset": 0,
+              "bit_length": 52
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fnc1-first-alpha-gs",
+      "label": "fnc1-first-alpha-gs（行列）",
+      "kind": "grid",
+      "format": "grid",
+      "path": "fnc1-first-alpha-gs.grid",
+      "sha256": "2938b1387b21a347d6938d362469ca00a47b0b583dd7e4b80175311533cfb10b",
+      "acceptance": true,
+      "rawPath": "fnc1-first-alpha-gs.raw",
+      "rawSha256": "2f668632241a58caffd1f11742c5b4ae092cf9941ed5497885c660fa149ee2d8",
+      "width": 33,
+      "height": 33,
+      "stride": 33,
+      "channels": 1,
+      "expectedSymbols": [
+        {
+          "bytes_hex": "41424325313233",
+          "version": 4,
+          "ec_level": "Q",
+          "fnc1": 1,
+          "fnc1_application_indicator": -1,
+          "noncanonical_padding": false,
+          "structured_append": {
+            "present": false,
+            "index": 0,
+            "count": 0,
+            "parity": 0
+          },
+          "segments": [
+            {
+              "mode": 5,
+              "bytes_hex": "",
+              "eci": -1,
+              "bit_offset": 0,
+              "bit_length": 4
+            },
+            {
+              "mode": 2,
+              "bytes_hex": "41424325313233",
+              "eci": -1,
+              "bit_offset": 4,
+              "bit_length": 52
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fnc1-second-mixed",
+      "label": "fnc1-second-mixed（行列）",
+      "kind": "grid",
+      "format": "grid",
+      "path": "fnc1-second-mixed.grid",
+      "sha256": "37e34cd0dfd2d76a483d6a72fe85f458acfbb20f198e2fe57a9b938ebef78465",
+      "acceptance": true,
+      "rawPath": "fnc1-second-mixed.raw",
+      "rawSha256": "524e2ad7401ec04cd1fb56ec88caf7a4ccb0f80a8bc8b779d8e75c311a60778b",
+      "width": 33,
+      "height": 33,
+      "stride": 33,
+      "channels": 1,
+      "expectedSymbols": [
+        {
+          "bytes_hex": "4125251d00ff2542",
+          "version": 4,
+          "ec_level": "Q",
+          "fnc1": 2,
+          "fnc1_application_indicator": 99,
+          "noncanonical_padding": false,
+          "structured_append": {
+            "present": false,
+            "index": 0,
+            "count": 0,
+            "parity": 0
+          },
+          "segments": [
+            {
+              "mode": 9,
+              "bytes_hex": "",
+              "eci": -1,
+              "bit_offset": 0,
+              "bit_length": 12
+            },
+            {
+              "mode": 2,
+              "bytes_hex": "4125",
+              "eci": -1,
+              "bit_offset": 12,
+              "bit_length": 24
+            },
+            {
+              "mode": 4,
+              "bytes_hex": "251d00ff",
+              "eci": -1,
+              "bit_offset": 36,
+              "bit_length": 44
+            },
+            {
+              "mode": 2,
+              "bytes_hex": "2542",
+              "eci": -1,
+              "bit_offset": 80,
+              "bit_length": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metadata-eci-utf8",
+      "label": "metadata-eci-utf8（行列）",
+      "kind": "grid",
+      "format": "grid",
+      "path": "metadata-eci-utf8.grid",
+      "sha256": "08edc1ee2575d5eb1a4284a2b7c62d5e3ab89407a27c642719c4f3f33e7758c4",
+      "acceptance": true,
+      "rawPath": "metadata-eci-utf8.raw",
+      "rawSha256": "c181b95384fe22431bc6e66746f6620db3eff02fa216cffc4785c871915fa0a4",
+      "width": 33,
+      "height": 33,
+      "stride": 33,
+      "channels": 1,
+      "expectedSymbols": [
+        {
+          "bytes_hex": "555446383a20cebbe99baaf09f9880",
+          "fnc1": 0,
+          "fnc1_application_indicator": -1,
+          "structured_append": {
+            "present": false,
+            "index": 0,
+            "count": 0,
+            "parity": 0
+          },
+          "segments": [
+            {
+              "mode": 7,
+              "bytes_hex": "",
+              "eci": 26,
+              "bit_offset": 0,
+              "bit_length": 12
+            },
+            {
+              "mode": 4,
+              "bytes_hex": "555446383a20cebbe99baaf09f9880",
+              "eci": 26,
+              "bit_offset": 12,
+              "bit_length": 132
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metadata-sa-0",
+      "label": "metadata-sa-0（行列）",
+      "kind": "grid",
+      "format": "grid",
+      "path": "metadata-sa-0.grid",
+      "sha256": "5865e7d6ad80b89688cde289d4fb5b3967fe9feea12ab353c1393c0c1d2d1cd5",
+      "acceptance": true,
+      "rawPath": "metadata-sa-0.raw",
+      "rawSha256": "4d96a20261f5dac80120c70c6505b76168dde40c469bc3c2d6ce41bdb42a9933",
+      "width": 29,
+      "height": 29,
+      "stride": 29,
+      "channels": 1,
+      "expectedSymbols": [
+        {
+          "bytes_hex": "5354525543545552454420415050454e442050415254204f4e4520",
+          "fnc1": 0,
+          "fnc1_application_indicator": -1,
+          "structured_append": {
+            "present": true,
+            "index": 0,
+            "count": 2,
+            "parity": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "metadata-sa-1",
+      "label": "metadata-sa-1（行列）",
+      "kind": "grid",
+      "format": "grid",
+      "path": "metadata-sa-1.grid",
+      "sha256": "c6aa5a6e819ebf1ab941cf7c45914873314d9b196a8ca06efa7812143ce59343",
+      "acceptance": true,
+      "rawPath": "metadata-sa-1.raw",
+      "rawSha256": "7587e0adec2abeed73da9ed12a609122811cbaeb2d524e2cad29fe680d1a99b5",
+      "width": 29,
+      "height": 29,
+      "stride": 29,
+      "channels": 1,
+      "expectedSymbols": [
+        {
+          "bytes_hex": "5354525543545552454420415050454e4420504152542054574f20",
+          "fnc1": 0,
+          "fnc1_application_indicator": -1,
+          "structured_append": {
+            "present": true,
+            "index": 1,
+            "count": 2,
+            "parity": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "single-binary-gray",
+      "label": "single-binary-gray（画像）",
+      "kind": "image",
+      "format": "pnm",
+      "path": "single-binary.pgm",
+      "sha256": "f6a67d3e64cc8e92a0dafdbb2683154ec23e79faff2b4478da07b46a8bce100d",
+      "acceptance": true,
+      "rawPath": "single-binary-gray.raw",
+      "rawSha256": "075ec4b52cc98415d1f4c22a9de70e1de2998e2e06abb3f9bd6e40369e1bccb6",
+      "width": 116,
+      "height": 116,
+      "stride": 116,
+      "channels": 1,
+      "expectedSymbols": [
+        {
+          "bytes_hex": "00ff014c0d",
+          "version": 1,
+          "ec_level": "L",
+          "mask": 5,
+          "fnc1": 0,
+          "fnc1_application_indicator": -1,
+          "structured_append": {
+            "present": false,
+            "index": 0,
+            "count": 0,
+            "parity": 0
+          },
+          "noncanonical_padding": false,
+          "segments": [
+            {
+              "mode": 4,
+              "bytes_hex": "00ff014c0d",
+              "eci": -1,
+              "bit_offset": 0,
+              "bit_length": 52
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "single-binary-rgb",
+      "label": "single-binary-rgb（画像）",
+      "kind": "image",
+      "format": "pnm",
+      "path": "single-binary.ppm",
+      "sha256": "c26a97f7657e10a5bd17cb2cf13385c9b1faa54488b384705ce4005d892545f2",
+      "acceptance": true,
+      "rawPath": "single-binary-rgb.raw",
+      "rawSha256": "fa4e2abcbdd29e3e1003d936550a7f955c099c75c012850d7f682e106505166a",
+      "width": 116,
+      "height": 116,
+      "stride": 348,
+      "channels": 3,
+      "expectedSymbols": [
+        {
+          "bytes_hex": "00ff014c0d",
+          "version": 1,
+          "ec_level": "L",
+          "mask": 5,
+          "fnc1": 0,
+          "fnc1_application_indicator": -1,
+          "structured_append": {
+            "present": false,
+            "index": 0,
+            "count": 0,
+            "parity": 0
+          },
+          "noncanonical_padding": false,
+          "segments": [
+            {
+              "mode": 4,
+              "bytes_hex": "00ff014c0d",
+              "eci": -1,
+              "bit_offset": 0,
+              "bit_length": 52
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "different-payloads-gray",
+      "label": "different-payloads-gray（画像）",
+      "kind": "image",
+      "format": "pnm",
+      "path": "different-payloads.pgm",
+      "sha256": "e66ef738407515af326f43da870443a3e380f349c276209cdd8f86b99211bc7a",
+      "acceptance": true,
+      "rawPath": "different-payloads-gray.raw",
+      "rawSha256": "af29ded5fef9dbe7681f0cab34b583d67ea8a89851db94555fd496c706eda91d",
+      "width": 340,
+      "height": 200,
+      "stride": 340,
+      "channels": 1,
+      "expectedSymbols": [
+        {
+          "bytes_hex": "00ff014c0d",
+          "version": 1,
+          "ec_level": "L",
+          "mask": 5,
+          "fnc1": 0,
+          "fnc1_application_indicator": -1,
+          "structured_append": {
+            "present": false,
+            "index": 0,
+            "count": 0,
+            "parity": 0
+          },
+          "noncanonical_padding": false,
+          "segments": [
+            {
+              "mode": 4,
+              "bytes_hex": "00ff014c0d",
+              "eci": -1,
+              "bit_offset": 0,
+              "bit_length": 52
+            }
+          ]
+        },
+        {
+          "bytes_hex": "41424325313233",
+          "version": 4,
+          "ec_level": "Q",
+          "fnc1": 1,
+          "fnc1_application_indicator": -1,
+          "noncanonical_padding": false,
+          "structured_append": {
+            "present": false,
+            "index": 0,
+            "count": 0,
+            "parity": 0
+          },
+          "segments": [
+            {
+              "mode": 5,
+              "bytes_hex": "",
+              "eci": -1,
+              "bit_offset": 0,
+              "bit_length": 4
+            },
+            {
+              "mode": 2,
+              "bytes_hex": "41424325313233",
+              "eci": -1,
+              "bit_offset": 4,
+              "bit_length": 52
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "same-payload-two-gray",
+      "label": "same-payload-two-gray（画像）",
+      "kind": "image",
+      "format": "pnm",
+      "path": "same-payload-two.pgm",
+      "sha256": "6a07d08703596cbcc40954751a7beba19694a115e54a4fa211d36c3ab965d259",
+      "acceptance": true,
+      "rawPath": "same-payload-two-gray.raw",
+      "rawSha256": "bed2fd5e814336ceb11a779b0ee9bb8bb26d4f9134cd9490f42d8017f3f5e72a",
+      "width": 330,
+      "height": 180,
+      "stride": 330,
+      "channels": 1,
+      "expectedSymbols": [
+        {
+          "bytes_hex": "00ff014c0d",
+          "version": 1,
+          "ec_level": "L",
+          "mask": 5,
+          "fnc1": 0,
+          "fnc1_application_indicator": -1,
+          "structured_append": {
+            "present": false,
+            "index": 0,
+            "count": 0,
+            "parity": 0
+          },
+          "noncanonical_padding": false,
+          "segments": [
+            {
+              "mode": 4,
+              "bytes_hex": "00ff014c0d",
+              "eci": -1,
+              "bit_offset": 0,
+              "bit_length": 52
+            }
+          ]
+        },
+        {
+          "bytes_hex": "00ff014c0d",
+          "version": 1,
+          "ec_level": "L",
+          "mask": 5,
+          "fnc1": 0,
+          "fnc1_application_indicator": -1,
+          "structured_append": {
+            "present": false,
+            "index": 0,
+            "count": 0,
+            "parity": 0
+          },
+          "noncanonical_padding": false,
+          "segments": [
+            {
+              "mode": 4,
+              "bytes_hex": "00ff014c0d",
+              "eci": -1,
+              "bit_offset": 0,
+              "bit_length": 52
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "structured-append-pair-gray",
+      "label": "structured-append-pair-gray（画像）",
+      "kind": "image",
+      "format": "pnm",
+      "path": "structured-append-pair.pgm",
+      "sha256": "537dd15d232c452204f3e0e67da88c4f1def7d373ca074298e5cc39bf776878f",
+      "acceptance": true,
+      "rawPath": "structured-append-pair-gray.raw",
+      "rawSha256": "9cde2066a495fc6c80cf1f74a59119cd91116891af70945f5e7e7a465b6cfb28",
+      "width": 296,
+      "height": 148,
+      "stride": 296,
+      "channels": 1,
+      "expectedSymbols": [
+        {
+          "bytes_hex": "5354525543545552454420415050454e442050415254204f4e4520",
+          "fnc1": 0,
+          "fnc1_application_indicator": -1,
+          "structured_append": {
+            "present": true,
+            "index": 0,
+            "count": 2,
+            "parity": 8
+          }
+        },
+        {
+          "bytes_hex": "5354525543545552454420415050454e4420504152542054574f20",
+          "fnc1": 0,
+          "fnc1_application_indicator": -1,
+          "structured_append": {
+            "present": true,
+            "index": 1,
+            "count": 2,
+            "parity": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "blank-white-gray",
+      "label": "blank-white-gray（画像）",
+      "kind": "image",
+      "format": "pnm",
+      "path": "blank-white.pgm",
+      "sha256": "fbda3e5665174433272beab4f25172bc03466e3f8700bcf6007b32c3636f2dc3",
+      "acceptance": true,
+      "rawPath": "blank-white-gray.raw",
+      "rawSha256": "f47a8ec3e9aff2318d896942282ad4fe37d6391c82914f54a5da8a37de1300c6",
+      "width": 64,
+      "height": 64,
+      "stride": 64,
+      "channels": 1,
+      "expectedSymbols": []
+    },
+    {
+      "id": "codec-png",
+      "label": "PNG の画像入力",
+      "kind": "image",
+      "format": "png",
+      "path": "single-binary.png",
+      "sha256": "5188e75d9db65da140045edef9ffe3db28745d5ff24fc77cf53aaf16897d1dbb",
+      "codecTest": true
+    },
+    {
+      "id": "codec-jpeg",
+      "label": "JPEG の画像入力",
+      "kind": "image",
+      "format": "jpeg",
+      "path": "single-binary.jpg",
+      "sha256": "7dd71f2a939c83f7743beba45823c9cbe118d2fe37917ab6f2092df656922653",
+      "codecTest": true
+    },
+    {
+      "id": "codec-transparent-png",
+      "label": "透明 PNG（白で合成）",
+      "kind": "image",
+      "format": "png",
+      "path": "single-binary-transparent.png",
+      "sha256": "795057b19c038ce9114b8aae014b66d5f53c7a3e8dc42f299a0f998f55d71f6e",
+      "codecTest": true
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+# Source manifests and pinned fixtures describe exact bytes on every platform.
+# Keep checkout/check-in from applying platform-dependent line-ending conversion.
+* -text
+# Preserve vendor notices byte-for-byte, including upstream whitespace.
+browser/trial/LICENSE-*.txt -whitespace
+browser/trial/samples/*-LICENSE.txt -whitespace

@@ -78,18 +78,26 @@ def compare(got, expected, policy):
 def cli_status_matches(returncode, result):
     """Validate the CLI's exit/JSON contract independently of payload matching.
 
-    A partial image search that found symbols is still a successful result;
-    work_limit_reached describes completeness, not Error::resource_limit.
+    処理量フラグは探索の完全性を表し、resource_limit とは別です。
+    資源エラーが部分シンボルを保持しても CLI 契約には合致します。
+    この判定だけでは、資源エラーを通常の成功として扱いません。
     """
     errors={'invalid_input','resource_limit','not_found','format','version','ecc','payload','unsupported'}
     if not isinstance(result,dict) or type(result.get('ok')) is not bool:
         return False
     symbols=result.get('symbols')
-    if not isinstance(symbols,list) or type(result.get('work_limit_reached',False)) is not bool:
+    if not isinstance(symbols,list):
+        return False
+    if 'work_limit_reached' not in result:
+        # CLI の例外応答だけは、このフィールドを出力しません。
+        if result.get('error')!='invalid_input':
+            return False
+    elif type(result['work_limit_reached']) is not bool:
         return False
     if result['ok']:
         return returncode==0 and result.get('error')=='none' and bool(symbols)
-    return returncode==2 and result.get('error') in errors and not symbols
+    return (returncode==2 and result.get('error') in errors
+            and (not symbols or result['error']=='resource_limit'))
 
 
 def product_source_hashes():
@@ -176,20 +184,23 @@ def main():
             result=json.loads(proc.stdout)
             got=[s['bytes_hex'] for s in result.get('symbols',[])]
             cli_ok=cli_status_matches(proc.returncode,result)
+            resource_ok=result.get('error')!='resource_limit'
             expected=v['expect']['decode']['binaryHex']
             passed,correct,false=compare(got,expected,v['expect']['policy'])
             metadata=v['expect'].get('metadata')
             metadata_ok=metadata is None or (len(result['symbols'])==1 and subset_equal(result['symbols'][0],metadata))
             # Allowed rejection beyond capacity has no metadata obligation.
-            rec.update(status='passed' if passed and metadata_ok and cli_ok else 'failed',
+            rec.update(status='passed' if passed and metadata_ok and cli_ok and resource_ok else 'failed',
                        matched_symbols=correct,false_decodes=false,actual_symbols=len(got),
                        cli_returncode=proc.returncode,cli_ok=result.get('ok'),
                        error=result.get('error'),runtime_ms=result.get('runtime_ms'),
-                       work_limit_reached=result.get('work_limit_reached',False),
-                       partial_search_success=cli_ok and bool(got) and result.get('work_limit_reached',False),
+                       work_limit_reached=result.get('work_limit_reached'),
+                       partial_search_success=cli_ok and result['ok'] and bool(got) and result.get('work_limit_reached',False),
+                       resource_partial_symbols=cli_ok and not resource_ok and bool(got),
                        details={'decoded':{'binaryHex':got},'message':result.get('message','')})
             rec['checks'].append({'name':'payload-multiset','status':'passed' if passed else 'failed'})
             rec['checks'].append({'name':'cli-status-contract','status':'passed' if cli_ok else 'failed'})
+            rec['checks'].append({'name':'resource-outcome','status':'passed' if resource_ok else 'failed'})
             if metadata is not None:
                 rec['checks'].append({'name':'metadata','status':'passed' if metadata_ok else 'failed'})
                 if not metadata_ok: rec['details']['metadata_actual']=result.get('symbols')
@@ -226,8 +237,9 @@ def main():
               'failed':sum(r['status']=='failed' for r in rows),'errors':sum(r['status']=='error' for r in rows),
               'expected_symbols':expected,'matched_symbols':matched,'recall':matched/expected if expected else None,
               'false_decodes':sum(r['false_decodes'] for r in rows),
-              'work_limit_reached':sum(r.get('work_limit_reached',False) for r in rows),
+              'work_limit_reached':sum(r.get('work_limit_reached',False) is True for r in rows),
               'partial_search_successes':sum(r.get('partial_search_success',False) for r in rows),
+              'resource_partial_results':sum(r.get('resource_partial_symbols',False) for r in rows),
               'runtime_ms':{'median':statistics.median(runtimes),'p95':sorted(runtimes)[min(len(runtimes)-1,int(.95*len(runtimes)))],
                             'max':max(runtimes)} if runtimes else None,
               'peak_rss_kib':{'median':statistics.median(rss),'max':max(rss)} if rss else None}
@@ -259,8 +271,8 @@ def main():
                            'recall':'exact source-byte multiset intersection / expected symbol count; multiplicity retained',
                            'false_decode':'output byte instances exceeding expected byte multiset; rejects are not false decodes',
                            'out_of_radius':'recover-or-reject cases: recall descriptive only; no guarantee of reject outside RS radius',
-                           'gate':'Product byte/metadata and CLI exit/JSON status checks, enabled reference comparisons, and before/after observed source hashes must all pass.',
-                           'partial_search':'Correct symbols with exit 0, ok=true, error=none and work_limit_reached=true are successful partial searches, counted separately; discovery completeness is not claimed.',
+                           'gate':'Product byte/metadata, CLI exit/JSON status and independent resource-outcome checks, enabled reference comparisons, and before/after observed source hashes must all pass. A resource_limit result never passes a normal fixture gate, even when all payloads match.',
+                           'partial_search':'Symbols with exit 0, ok=true, error=none and work_limit_reached=true are successful partial searches, counted separately; discovery completeness is not claimed and exact payload requirements still apply. A resource_limit result may retain partial symbols with either flag value; this valid CLI state is recorded separately and fails the resource-outcome check.',
                            'reference_bytes':'Reference defaults to the exact Reader expectation. A fixture may explicitly supply expect.referenceDecode.binaryHex for a documented API representation difference; no bytes are normalized by this harness.',
                            'scope':'Synthetic deterministic distributions plus optional explicitly labeled held-out sources. No statistical real-world recall claim.'},
             'categories':categories,'records':records}

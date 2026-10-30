@@ -6,7 +6,7 @@ English entry points: [build commands](#build-and-test), [API contract and examp
 
 SpecQR Reader は、QR Code Model 2 を対象とする実験段階の Reader です。新規に作成したコードと文書を MIT ライセンスで公開しています。入力サイズと処理量に上限を設け、独立した実装によるフィクスチャ確認とネイティブ環境での移植性検証を行っています。ただし、QR 仕様全体への適合、形式的な正しさ、あらゆる写真からの確実な読み取りを保証するものではありません。
 
-公開済みの基準コミットは [`c7dfc6918d621d45830701b62c7a75ccd2ba965f`](https://github.com/SpecQR/SpecQR-Reader/commit/c7dfc6918d621d45830701b62c7a75ccd2ba965f) です。この基準ソースでは、[GitHub Actions の実行](https://github.com/SpecQR/SpecQR-Reader/actions/runs/38248190279) と公開リポジトリからの新規クローン検証が成功しています。今回の日本語文書変更に対する検証とは区別し、詳しい範囲を [検証記録](docs/validation.md) に記載しています。
+以前の公開基準コミット [`c7dfc6918d621d45830701b62c7a75ccd2ba965f`](https://github.com/SpecQR/SpecQR-Reader/commit/c7dfc6918d621d45830701b62c7a75ccd2ba965f) では、[GitHub Actions の実行](https://github.com/SpecQR/SpecQR-Reader/actions/runs/38248190279) と公開リポジトリからの新規クローン検証が成功しています。これはそのコミットの検証記録であり、後から追加したブラウザー試験版の公開や CI 成功を示すものではありません。詳しい対象と範囲は [検証記録](docs/validation.md) を参照してください。
 
 ライブラリが使用するのは C++17 標準ライブラリだけです。C++17 を選ぶことで、インタープリターや画像コーデックに依存せず、画像処理の中核を移植して一般的なネイティブアプリケーションへ組み込めます。一方、バッファーの寿命管理とメモリー確保失敗への対処は呼び出し側の責任です。任意のコマンドラインアダプターは PNM 画像とテキスト形式のグリッドを読み取ります。PNG/JPEG の読み込み、カメラ接続、文字列変換、Structured Append の再結合は、アプリケーション側のアダプターで行います。Reed–Solomon 訂正は Reader の内部構成要素であり、独立した ECC API ではありません。
 
@@ -54,6 +54,26 @@ python3 tests/run_ci.py --work-dir /absolute/path/to/new-ci-work
 Python の実行ファイル名は、使用するプラットフォームに合わせてください。作業ディレクトリには、まだ存在しない、ソースツリーの外側のパスを指定します。CI の設定だけでは実行の証拠になりません。実際に確認したコミットと検証範囲は [検証記録](docs/validation.md) を参照してください。
 
 対応するコンパイラーとランタイムでは、`make sanitize` により、有限個の中核テストを AddressSanitizer と UndefinedBehaviorSanitizer の下で実行します。リーク検査は Darwin 以外では既定で有効、Darwin では報告済みの Apple ランタイムの制約により既定で無効です。必要に応じて `SANITIZER_DETECT_LEAKS=0` または `1` で上書きできます。サニタイザーを使用できるかどうかは、選択したツールチェーンに依存します。
+
+## ソース配布の照合
+
+リポジトリのルートで `python3 tools/source_manifest.py` を実行すると、ソースファイルの一覧と SHA-256 を `MANIFEST.sha256` に照合します。意図したソース変更を確認した後に限り、`python3 tools/source_manifest.py --update` で更新し、再度照合してください。
+
+ソース ZIP に収録するのは、マニフェストに列挙されたファイルと `MANIFEST.sha256` 自体です。生成した `browser/trial/assets/`、ビルド出力、検証結果、Git の管理情報は対象外であり、作業ツリー全体をそのままアーカイブしません。Wasm を含む実行用試験版は、ソース配布とは別の成果物マニフェストで管理します。
+
+## 実験的なブラウザー試験版
+
+`browser/trial/` には、日本語の試験画面、Web Worker、固定サンプル、検証ハーネスを含めています。実際の C++17 Reader を Emscripten 6.0.12 で WebAssembly にビルドし、画像の選択、読み取り、停止、結果の確認をブラウザー内で行います。PNG/JPEG の展開はブラウザーの画像機能が担当し、QR の解析は Reader が担当します。
+
+ソースチェックアウトには、生成物 `specqr.mjs` と `specqr.wasm` を含めていません。[ブラウザー版のビルド手順](browser/README.md) に従って `browser/trial/assets/` へ生成した後、リポジトリのルートで次を実行します。
+
+```sh
+python3 browser/trial/serve.py
+```
+
+表示されたループバック URL を同じコンピューターのブラウザーで開きます。ビルド済みファイルを含む試験版フォルダーが手元にある場合は、[起動と利用の説明](browser/trial/はじめに.md) を参照してください。この案内は、ビルド済みバイナリーのリリースや公開ホスティングの存在を意味しません。
+
+透過画素は白に合成し、解析用画像は自動縮小しません。元のバイト列、セグメント、ECI、FNC1、Structured Append、部分結果と処理量制限の状態を保持します。カメラ、文字コードの自動変換、Structured Append の再結合は含みません。Wasm 化によって既存の画像認識限界が改善するわけではなく、Mac のブラウザー検証は iPhone/iPad の動作確認ではありません。[ブラウザー版の検証方法](browser/trial/tests/README.md) と [Reader の制約](docs/limitations.md) を確認してください。
 
 ## Reader の使い方
 
