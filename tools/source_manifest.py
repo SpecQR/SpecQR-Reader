@@ -32,7 +32,8 @@ def excluded(path):
 
 def contents():
     rows = []
-    for path in sorted(ROOT.rglob('*')):
+    # Compare case-sensitive relative components on every platform.
+    for path in sorted(ROOT.rglob('*'), key=lambda path: path.relative_to(ROOT).parts):
         if excluded(path):
             continue
         if path.is_symlink():
