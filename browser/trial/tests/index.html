@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpecQR Reader ブラウザー検証</title>
+<style>body{max-width:1100px;margin:2rem auto;padding:0 1rem;background:#101823;color:#eef4ff;font:16px system-ui}button,input{font:inherit;padding:.65rem;margin:.4rem}button{cursor:pointer}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#1c293b;padding:1rem}a{color:#89c6ff}label{display:block}.pass{color:#98e6b1}.fail{color:#ffb2b2}</style>
+<h1>SpecQR Reader ブラウザー検証</h1>
+<p>実際の Web Worker / Wasm で固定 fixture、PNG/JPEG/透明 PNG、停止と再起動を検査します。ブラウザーで展開した RGB は結果 JSON に記録します。「JSON をダウンロード」で全データを保存できます。</p>
+<p><a href="../index.html">Reader 試験版に戻る</a></p>
+<label>証跡ラベル <input id="label" value="browser" pattern="[A-Za-z0-9_-]+"></label>
+<button id="run">検証を実行</button><button id="save" disabled>JSON をダウンロード</button>
+<p id="status" role="status">未実行</p><pre id="results">ここに検証結果が表示されます。</pre>
+<script type="module" src="./browser-tests.mjs"></script>
+</html>

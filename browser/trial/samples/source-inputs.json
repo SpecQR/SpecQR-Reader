@@ -1,0 +1,361 @@
+{
+  "version": 1,
+  "description": "固定行列の原典・期待値。Reader の新しい実行出力は期待値に使わない。",
+  "sourceCommit": "1423a9456541314efd559c574f832e5d3844a45b",
+  "sources": {
+    "binary-nul-invalid-utf8": {
+      "path": "fixtures/reader/binary-nul-invalid-utf8.grid",
+      "sha256": "47e4a6b23c98c2efc97beb618d6d5217e8869a3149f14304c222c846d4ad2670",
+      "source": {
+        "repository": "SpecQR/SpecQR-Reader",
+        "commit": "1423a9456541314efd559c574f832e5d3844a45b",
+        "path": "tests/image_boundary_tests.cpp",
+        "sha256": "9afa97bfb93765a0e250f1468bd5710b3f70246365e8b362ed79115a7245d412",
+        "encoder": "qrcode 8.2",
+        "plan": "version 1, L, mask 5, byte mode, payload 00ff014c0d"
+      },
+      "expectedSymbol": {
+        "bytes_hex": "00ff014c0d",
+        "version": 1,
+        "ec_level": "L",
+        "mask": 5,
+        "fnc1": 0,
+        "fnc1_application_indicator": -1,
+        "structured_append": {
+          "present": false,
+          "index": 0,
+          "count": 0,
+          "parity": 0
+        },
+        "noncanonical_padding": false,
+        "segments": [
+          {
+            "mode": 4,
+            "bytes_hex": "00ff014c0d",
+            "eci": -1,
+            "bit_offset": 0,
+            "bit_length": 52
+          }
+        ]
+      }
+    },
+    "fnc1-first-alpha-gs": {
+      "path": "fixtures/reader/fnc1-first-alpha-gs.grid",
+      "sha256": "2938b1387b21a347d6938d362469ca00a47b0b583dd7e4b80175311533cfb10b",
+      "source": {
+        "repository": "SpecQR/SpecQR-Reader",
+        "commit": "1423a9456541314efd559c574f832e5d3844a45b",
+        "path": "tests/fnc1_vectors.inc",
+        "sha256": "3618541270b861269dae65bca54c94b98802ca547004709100dfe8a7db563204",
+        "encoder": "ZXing Java 3.5.3",
+        "case": "fnc1-first-alpha-gs"
+      },
+      "expectedSymbol": {
+        "bytes_hex": "41424325313233",
+        "version": 4,
+        "ec_level": "Q",
+        "fnc1": 1,
+        "fnc1_application_indicator": -1,
+        "noncanonical_padding": false,
+        "structured_append": {
+          "present": false,
+          "index": 0,
+          "count": 0,
+          "parity": 0
+        },
+        "segments": [
+          {
+            "mode": 5,
+            "bytes_hex": "",
+            "eci": -1,
+            "bit_offset": 0,
+            "bit_length": 4
+          },
+          {
+            "mode": 2,
+            "bytes_hex": "41424325313233",
+            "eci": -1,
+            "bit_offset": 4,
+            "bit_length": 52
+          }
+        ]
+      }
+    },
+    "fnc1-second-mixed": {
+      "path": "fixtures/reader/fnc1-second-mixed.grid",
+      "sha256": "37e34cd0dfd2d76a483d6a72fe85f458acfbb20f198e2fe57a9b938ebef78465",
+      "source": {
+        "repository": "SpecQR/SpecQR-Reader",
+        "commit": "1423a9456541314efd559c574f832e5d3844a45b",
+        "path": "tests/fnc1_vectors.inc",
+        "sha256": "3618541270b861269dae65bca54c94b98802ca547004709100dfe8a7db563204",
+        "encoder": "libqrencode 4.1.1",
+        "case": "fnc1-second-mixed"
+      },
+      "expectedSymbol": {
+        "bytes_hex": "4125251d00ff2542",
+        "version": 4,
+        "ec_level": "Q",
+        "fnc1": 2,
+        "fnc1_application_indicator": 99,
+        "noncanonical_padding": false,
+        "structured_append": {
+          "present": false,
+          "index": 0,
+          "count": 0,
+          "parity": 0
+        },
+        "segments": [
+          {
+            "mode": 9,
+            "bytes_hex": "",
+            "eci": -1,
+            "bit_offset": 0,
+            "bit_length": 12
+          },
+          {
+            "mode": 2,
+            "bytes_hex": "4125",
+            "eci": -1,
+            "bit_offset": 12,
+            "bit_length": 24
+          },
+          {
+            "mode": 4,
+            "bytes_hex": "251d00ff",
+            "eci": -1,
+            "bit_offset": 36,
+            "bit_length": 44
+          },
+          {
+            "mode": 2,
+            "bytes_hex": "2542",
+            "eci": -1,
+            "bit_offset": 80,
+            "bit_length": 24
+          }
+        ]
+      }
+    },
+    "metadata-eci-utf8": {
+      "path": "fixtures/reader/metadata-eci-utf8.grid",
+      "sha256": "08edc1ee2575d5eb1a4284a2b7c62d5e3ab89407a27c642719c4f3f33e7758c4",
+      "source": {
+        "retainedCorpus": "specqr-windows-validation-kit-20261012",
+        "encoder": "segno-1.6.6",
+        "originalVector": {
+          "id": "metadata-eci-utf8",
+          "title": "metadata-eci-utf8",
+          "category": "grid-metadata",
+          "operation": "reader.decode-grid",
+          "input": {
+            "path": "fixtures/grids/metadata-eci-utf8.grid",
+            "sha256": "08edc1ee2575d5eb1a4284a2b7c62d5e3ab89407a27c642719c4f3f33e7758c4"
+          },
+          "options": {},
+          "expect": {
+            "decode": {
+              "binaryHex": [
+                "555446383a20cebbe99baaf09f9880"
+              ]
+            },
+            "policy": "exact",
+            "metadata": {
+              "segments": [
+                {
+                  "mode": 7,
+                  "eci": 26,
+                  "bytes_hex": ""
+                },
+                {
+                  "mode": 4,
+                  "eci": 26,
+                  "bytes_hex": "555446383a20cebbe99baaf09f9880"
+                }
+              ]
+            }
+          },
+          "source": "segno-1.6.6",
+          "notes": ""
+        },
+        "transferMapping": {
+          "origin": "r4",
+          "archive_member": "specqr-reader/fixtures/grids/metadata-eci-utf8.grid",
+          "kit_path": "specqr-reader-image-review/reader/fixtures/grids/metadata-eci-utf8.grid",
+          "bytes": 1125,
+          "sha256": "08edc1ee2575d5eb1a4284a2b7c62d5e3ab89407a27c642719c4f3f33e7758c4"
+        },
+        "manifestSha256": "602dd71dad45fc2403b3cab2ac001a593c04ffc86cfe466051a81a2c01b24264",
+        "kitManifestSha256": "980b156e8f0c4a076c7c8b25c4a3b8467ac7e8ed3095af9ca065cc0ef3b91f4d",
+        "transferMappingSha256": "29dc42cb3530c62b3cf4637dd75405819a7528e31558f97b3b605b5e44b6f4c0",
+        "archiveIdentity": {
+          "origin": "r4",
+          "version": 0,
+          "bytes": 45440246,
+          "sha256": "495c6df46c28af05292345c251a3c39d220529dc1b649e72cea5051e4cb42fbd"
+        }
+      },
+      "expectedSymbol": {
+        "bytes_hex": "555446383a20cebbe99baaf09f9880",
+        "fnc1": 0,
+        "fnc1_application_indicator": -1,
+        "structured_append": {
+          "present": false,
+          "index": 0,
+          "count": 0,
+          "parity": 0
+        },
+        "segments": [
+          {
+            "mode": 7,
+            "bytes_hex": "",
+            "eci": 26,
+            "bit_offset": 0,
+            "bit_length": 12
+          },
+          {
+            "mode": 4,
+            "bytes_hex": "555446383a20cebbe99baaf09f9880",
+            "eci": 26,
+            "bit_offset": 12,
+            "bit_length": 132
+          }
+        ]
+      }
+    },
+    "metadata-sa-0": {
+      "path": "fixtures/reader/metadata-sa-0.grid",
+      "sha256": "5865e7d6ad80b89688cde289d4fb5b3967fe9feea12ab353c1393c0c1d2d1cd5",
+      "source": {
+        "retainedCorpus": "specqr-windows-validation-kit-20261012",
+        "encoder": "segno-1.6.6",
+        "originalVector": {
+          "id": "metadata-sa-0",
+          "title": "metadata-sa-0",
+          "category": "grid-metadata",
+          "operation": "reader.decode-grid",
+          "input": {
+            "path": "fixtures/grids/metadata-sa-0.grid",
+            "sha256": "5865e7d6ad80b89688cde289d4fb5b3967fe9feea12ab353c1393c0c1d2d1cd5"
+          },
+          "options": {},
+          "expect": {
+            "decode": {
+              "binaryHex": [
+                "5354525543545552454420415050454e442050415254204f4e4520"
+              ]
+            },
+            "policy": "exact",
+            "metadata": {
+              "structured_append": {
+                "present": true,
+                "index": 0,
+                "count": 2,
+                "parity": 8
+              }
+            }
+          },
+          "source": "segno-1.6.6",
+          "notes": ""
+        },
+        "transferMapping": {
+          "origin": "r4",
+          "archive_member": "specqr-reader/fixtures/grids/metadata-sa-0.grid",
+          "kit_path": "specqr-reader-image-review/reader/fixtures/grids/metadata-sa-0.grid",
+          "bytes": 873,
+          "sha256": "5865e7d6ad80b89688cde289d4fb5b3967fe9feea12ab353c1393c0c1d2d1cd5"
+        },
+        "manifestSha256": "602dd71dad45fc2403b3cab2ac001a593c04ffc86cfe466051a81a2c01b24264",
+        "kitManifestSha256": "980b156e8f0c4a076c7c8b25c4a3b8467ac7e8ed3095af9ca065cc0ef3b91f4d",
+        "transferMappingSha256": "29dc42cb3530c62b3cf4637dd75405819a7528e31558f97b3b605b5e44b6f4c0",
+        "archiveIdentity": {
+          "origin": "r4",
+          "version": 0,
+          "bytes": 45440246,
+          "sha256": "495c6df46c28af05292345c251a3c39d220529dc1b649e72cea5051e4cb42fbd"
+        }
+      },
+      "expectedSymbol": {
+        "bytes_hex": "5354525543545552454420415050454e442050415254204f4e4520",
+        "fnc1": 0,
+        "fnc1_application_indicator": -1,
+        "structured_append": {
+          "present": true,
+          "index": 0,
+          "count": 2,
+          "parity": 8
+        }
+      }
+    },
+    "metadata-sa-1": {
+      "path": "fixtures/reader/metadata-sa-1.grid",
+      "sha256": "c6aa5a6e819ebf1ab941cf7c45914873314d9b196a8ca06efa7812143ce59343",
+      "source": {
+        "retainedCorpus": "specqr-windows-validation-kit-20261012",
+        "encoder": "segno-1.6.6",
+        "originalVector": {
+          "id": "metadata-sa-1",
+          "title": "metadata-sa-1",
+          "category": "grid-metadata",
+          "operation": "reader.decode-grid",
+          "input": {
+            "path": "fixtures/grids/metadata-sa-1.grid",
+            "sha256": "c6aa5a6e819ebf1ab941cf7c45914873314d9b196a8ca06efa7812143ce59343"
+          },
+          "options": {},
+          "expect": {
+            "decode": {
+              "binaryHex": [
+                "5354525543545552454420415050454e4420504152542054574f20"
+              ]
+            },
+            "policy": "exact",
+            "metadata": {
+              "structured_append": {
+                "present": true,
+                "index": 1,
+                "count": 2,
+                "parity": 8
+              }
+            }
+          },
+          "source": "segno-1.6.6",
+          "notes": ""
+        },
+        "transferMapping": {
+          "origin": "r4",
+          "archive_member": "specqr-reader/fixtures/grids/metadata-sa-1.grid",
+          "kit_path": "specqr-reader-image-review/reader/fixtures/grids/metadata-sa-1.grid",
+          "bytes": 873,
+          "sha256": "c6aa5a6e819ebf1ab941cf7c45914873314d9b196a8ca06efa7812143ce59343"
+        },
+        "manifestSha256": "602dd71dad45fc2403b3cab2ac001a593c04ffc86cfe466051a81a2c01b24264",
+        "kitManifestSha256": "980b156e8f0c4a076c7c8b25c4a3b8467ac7e8ed3095af9ca065cc0ef3b91f4d",
+        "transferMappingSha256": "29dc42cb3530c62b3cf4637dd75405819a7528e31558f97b3b605b5e44b6f4c0",
+        "archiveIdentity": {
+          "origin": "r4",
+          "version": 0,
+          "bytes": 45440246,
+          "sha256": "495c6df46c28af05292345c251a3c39d220529dc1b649e72cea5051e4cb42fbd"
+        }
+      },
+      "expectedSymbol": {
+        "bytes_hex": "5354525543545552454420415050454e4420504152542054574f20",
+        "fnc1": 0,
+        "fnc1_application_indicator": -1,
+        "structured_append": {
+          "present": true,
+          "index": 1,
+          "count": 2,
+          "parity": 8
+        }
+      }
+    }
+  },
+  "derivationNotes": [
+    "binary の bit_length は byte mode の 4 mode bits + 8 count bits + 5 bytes * 8。",
+    "FNC1 の全 segment は既存 fnc1_vectors.inc の独立エンコーダー計画から転記。",
+    "ECI の mode/bytes/assignment は元 manifest。bit spans は ECI 26 の 4+8 bits と version 4 の byte header 4+8 bits + raw bytes。",
+    "SA の payload と index/count/parity は元 manifest。SA control record は既存 payload_rs_tests.cpp の 20-bit header 契約。"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "emscriptenVersion": "6.0.12",
+  "versionGuardFile": "emscripten-version.txt",
+  "emsdkCommit": "35ff8a6d150541276abbc6bae512ca90bcfbe220",
+  "emscriptenCommit": "5488e0871d46d19a3209988190fa6a653126256f",
+  "releaseBuild": "6e9f6885cb17a3d6c8fd488a5cff730f50aba61d",
+  "nodeVersionUsedForValidation": "24.19.0",
+  "officialSdkRepository": "https://github.com/emscripten-core/emsdk",
+  "officialInstallGuide": "https://emscripten.org/docs/getting_started/downloads.html",
+  "macArm64ArchiveSha256": "8e91c0eca2b8728aa2babb32b805318eaf5e8d6652c6535163d0ea467a6d907c",
+  "macArm64ArchiveVerification": "SHA-256 computed locally from the official archive; publisher GCS CRC32C matched. This is not a publisher-signed SHA-256 claim.",
+  "macArm64PublisherCrc32cBase64": "QHkicQ==",
+  "macArm64ArchiveUrl": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/mac/6e9f6885cb17a3d6c8fd488a5cff730f50aba61d/wasm-binaries-arm64.tar.xz"
+}

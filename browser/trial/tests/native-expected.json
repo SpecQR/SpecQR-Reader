@@ -1,0 +1,2388 @@
+{
+  "version": 1,
+  "comparisonExcludes": [
+    "runtime_ms",
+    "repeat",
+    "peak_rss_kib"
+  ],
+  "fixtures": [
+    {
+      "id": "binary-nul-invalid-utf8",
+      "diagnostics": false,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": []
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "binary-nul-invalid-utf8",
+      "diagnostics": true,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=26; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=1; parity per block=7; corrected codewords=0"
+              }
+            ]
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "fnc1-first-alpha-gs",
+      "diagnostics": false,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "41424325313233",
+            "hex": "41424325313233",
+            "version": 4,
+            "mask": 3,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 1,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 5,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 4
+              },
+              {
+                "mode": 2,
+                "bytes_hex": "41424325313233",
+                "hex": "41424325313233",
+                "eci": -1,
+                "bit_offset": 4,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": []
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "fnc1-first-alpha-gs",
+      "diagnostics": true,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "41424325313233",
+            "hex": "41424325313233",
+            "version": 4,
+            "mask": 3,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 1,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 5,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 4
+              },
+              {
+                "mode": 2,
+                "bytes_hex": "41424325313233",
+                "hex": "41424325313233",
+                "eci": -1,
+                "bit_offset": 4,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=100; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=2; parity per block=26; corrected codewords=0"
+              }
+            ]
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "fnc1-second-mixed",
+      "diagnostics": false,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "4125251d00ff2542",
+            "hex": "4125251d00ff2542",
+            "version": 4,
+            "mask": 4,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 2,
+            "fnc1_application_indicator": 99,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 9,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 12
+              },
+              {
+                "mode": 2,
+                "bytes_hex": "4125",
+                "hex": "4125",
+                "eci": -1,
+                "bit_offset": 12,
+                "bit_length": 24
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "251d00ff",
+                "hex": "251d00ff",
+                "eci": -1,
+                "bit_offset": 36,
+                "bit_length": 44
+              },
+              {
+                "mode": 2,
+                "bytes_hex": "2542",
+                "hex": "2542",
+                "eci": -1,
+                "bit_offset": 80,
+                "bit_length": 24
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": []
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "fnc1-second-mixed",
+      "diagnostics": true,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "4125251d00ff2542",
+            "hex": "4125251d00ff2542",
+            "version": 4,
+            "mask": 4,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 2,
+            "fnc1_application_indicator": 99,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 9,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 12
+              },
+              {
+                "mode": 2,
+                "bytes_hex": "4125",
+                "hex": "4125",
+                "eci": -1,
+                "bit_offset": 12,
+                "bit_length": 24
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "251d00ff",
+                "hex": "251d00ff",
+                "eci": -1,
+                "bit_offset": 36,
+                "bit_length": 44
+              },
+              {
+                "mode": 2,
+                "bytes_hex": "2542",
+                "hex": "2542",
+                "eci": -1,
+                "bit_offset": 80,
+                "bit_length": 24
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=100; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=2; parity per block=26; corrected codewords=0"
+              }
+            ]
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "metadata-eci-utf8",
+      "diagnostics": false,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "555446383a20cebbe99baaf09f9880",
+            "hex": "555446383a20cebbe99baaf09f9880",
+            "version": 4,
+            "mask": 7,
+            "ec_level": "H",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 7,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": 26,
+                "bit_offset": 0,
+                "bit_length": 12
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "555446383a20cebbe99baaf09f9880",
+                "hex": "555446383a20cebbe99baaf09f9880",
+                "eci": 26,
+                "bit_offset": 12,
+                "bit_length": 132
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": []
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "metadata-eci-utf8",
+      "diagnostics": true,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "555446383a20cebbe99baaf09f9880",
+            "hex": "555446383a20cebbe99baaf09f9880",
+            "version": 4,
+            "mask": 7,
+            "ec_level": "H",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 7,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": 26,
+                "bit_offset": 0,
+                "bit_length": 12
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "555446383a20cebbe99baaf09f9880",
+                "hex": "555446383a20cebbe99baaf09f9880",
+                "eci": 26,
+                "bit_offset": 12,
+                "bit_length": 132
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=100; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=4; parity per block=16; corrected codewords=0"
+              }
+            ]
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "metadata-sa-0",
+      "diagnostics": false,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "5354525543545552454420415050454e442050415254204f4e4520",
+            "hex": "5354525543545552454420415050454e442050415254204f4e4520",
+            "version": 3,
+            "mask": 0,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": true,
+              "index": 0,
+              "count": 2,
+              "parity": 8
+            },
+            "segments": [
+              {
+                "mode": 3,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 20
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "5354525543545552454420415050454e442050415254204f4e4520",
+                "hex": "5354525543545552454420415050454e442050415254204f4e4520",
+                "eci": -1,
+                "bit_offset": 20,
+                "bit_length": 228
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": []
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "metadata-sa-0",
+      "diagnostics": true,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "5354525543545552454420415050454e442050415254204f4e4520",
+            "hex": "5354525543545552454420415050454e442050415254204f4e4520",
+            "version": 3,
+            "mask": 0,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": true,
+              "index": 0,
+              "count": 2,
+              "parity": 8
+            },
+            "segments": [
+              {
+                "mode": 3,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 20
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "5354525543545552454420415050454e442050415254204f4e4520",
+                "hex": "5354525543545552454420415050454e442050415254204f4e4520",
+                "eci": -1,
+                "bit_offset": 20,
+                "bit_length": 228
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=70; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=2; parity per block=18; corrected codewords=0"
+              }
+            ]
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "metadata-sa-1",
+      "diagnostics": false,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "5354525543545552454420415050454e4420504152542054574f20",
+            "hex": "5354525543545552454420415050454e4420504152542054574f20",
+            "version": 3,
+            "mask": 4,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": true,
+              "index": 1,
+              "count": 2,
+              "parity": 8
+            },
+            "segments": [
+              {
+                "mode": 3,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 20
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "5354525543545552454420415050454e4420504152542054574f20",
+                "hex": "5354525543545552454420415050454e4420504152542054574f20",
+                "eci": -1,
+                "bit_offset": 20,
+                "bit_length": 228
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": []
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "metadata-sa-1",
+      "diagnostics": true,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "5354525543545552454420415050454e4420504152542054574f20",
+            "hex": "5354525543545552454420415050454e4420504152542054574f20",
+            "version": 3,
+            "mask": 4,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": true,
+              "index": 1,
+              "count": 2,
+              "parity": 8
+            },
+            "segments": [
+              {
+                "mode": 3,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 20
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "5354525543545552454420415050454e4420504152542054574f20",
+                "hex": "5354525543545552454420415050454e4420504152542054574f20",
+                "eci": -1,
+                "bit_offset": 20,
+                "bit_length": 228
+              }
+            ],
+            "corners": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=70; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=2; parity per block=18; corrected codewords=0"
+              }
+            ]
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "single-binary-gray",
+      "diagnostics": false,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                15.5,
+                15.5
+              ],
+              [
+                99.5,
+                15.5
+              ],
+              [
+                99.5,
+                99.5
+              ],
+              [
+                15.5,
+                99.5
+              ]
+            ],
+            "trace": []
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "single-binary-gray",
+      "diagnostics": true,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                15.5,
+                15.5
+              ],
+              [
+                99.5,
+                15.5
+              ],
+              [
+                99.5,
+                99.5
+              ],
+              [
+                15.5,
+                99.5
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=26; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=1; parity per block=7; corrected codewords=0"
+              },
+              {
+                "stage": "image.sample",
+                "detail": "dimension=21, projective g=0.000000, h=0.000000"
+              }
+            ]
+          }
+        ],
+        "trace": [
+          {
+            "stage": "image.finders",
+            "detail": "global: candidates=3, triples=3"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=85.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=85.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finders",
+            "detail": "local: candidates=3, triples=3"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=85.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=85.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.work",
+            "detail": "grid attempts=1, sample probes=1451"
+          }
+        ]
+      }
+    },
+    {
+      "id": "single-binary-rgb",
+      "diagnostics": false,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                15.5,
+                15.5
+              ],
+              [
+                99.5,
+                15.5
+              ],
+              [
+                99.5,
+                99.5
+              ],
+              [
+                15.5,
+                99.5
+              ]
+            ],
+            "trace": []
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "single-binary-rgb",
+      "diagnostics": true,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                15.5,
+                15.5
+              ],
+              [
+                99.5,
+                15.5
+              ],
+              [
+                99.5,
+                99.5
+              ],
+              [
+                15.5,
+                99.5
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=26; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=1; parity per block=7; corrected codewords=0"
+              },
+              {
+                "stage": "image.sample",
+                "detail": "dimension=21, projective g=0.000000, h=0.000000"
+              }
+            ]
+          }
+        ],
+        "trace": [
+          {
+            "stage": "image.finders",
+            "detail": "global: candidates=3, triples=3"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=85.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=85.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finders",
+            "detail": "local: candidates=3, triples=3"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=85.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=85.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.work",
+            "detail": "grid attempts=1, sample probes=1451"
+          }
+        ]
+      }
+    },
+    {
+      "id": "different-payloads-gray",
+      "diagnostics": false,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                15.5,
+                15.5
+              ],
+              [
+                99.5,
+                15.5
+              ],
+              [
+                99.5,
+                99.5
+              ],
+              [
+                15.5,
+                99.5
+              ]
+            ],
+            "trace": []
+          },
+          {
+            "bytes_hex": "41424325313233",
+            "hex": "41424325313233",
+            "version": 4,
+            "mask": 3,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 1,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 5,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 4
+              },
+              {
+                "mode": 2,
+                "bytes_hex": "41424325313233",
+                "hex": "41424325313233",
+                "eci": -1,
+                "bit_offset": 4,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                191.5,
+                15.5
+              ],
+              [
+                323.5,
+                15.5
+              ],
+              [
+                323.5,
+                147.5
+              ],
+              [
+                191.5,
+                147.5
+              ]
+            ],
+            "trace": []
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "different-payloads-gray",
+      "diagnostics": true,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                15.5,
+                15.5
+              ],
+              [
+                99.5,
+                15.5
+              ],
+              [
+                99.5,
+                99.5
+              ],
+              [
+                15.5,
+                99.5
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=26; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=1; parity per block=7; corrected codewords=0"
+              },
+              {
+                "stage": "image.sample",
+                "detail": "dimension=21, projective g=0.000000, h=0.000000"
+              }
+            ]
+          },
+          {
+            "bytes_hex": "41424325313233",
+            "hex": "41424325313233",
+            "version": 4,
+            "mask": 3,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 1,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 5,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 4
+              },
+              {
+                "mode": 2,
+                "bytes_hex": "41424325313233",
+                "hex": "41424325313233",
+                "eci": -1,
+                "bit_offset": 4,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                191.5,
+                15.5
+              ],
+              [
+                323.5,
+                15.5
+              ],
+              [
+                323.5,
+                147.5
+              ],
+              [
+                191.5,
+                147.5
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=100; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=2; parity per block=26; corrected codewords=0"
+              },
+              {
+                "stage": "image.sample",
+                "detail": "dimension=33, projective g=0.000000, h=0.000000"
+              }
+            ]
+          }
+        ],
+        "trace": [
+          {
+            "stage": "image.finders",
+            "detail": "global: candidates=8, triples=53"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=85.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=205.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=309.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=85.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=205.500000, y=133.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=261.500000, y=99.500000, module=7.053571, hits=4"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=289.500000, y=95.500000, module=6.500000, hits=2"
+          },
+          {
+            "stage": "image.finders",
+            "detail": "local: candidates=8, triples=53"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=85.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=205.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=309.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=85.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=205.500000, y=133.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=261.500000, y=99.500000, module=7.053571, hits=4"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=289.500000, y=95.500000, module=6.500000, hits=2"
+          },
+          {
+            "stage": "image.work",
+            "detail": "grid attempts=2, sample probes=3795"
+          }
+        ]
+      }
+    },
+    {
+      "id": "same-payload-two-gray",
+      "diagnostics": false,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                301.5,
+                57.5
+              ],
+              [
+                301.5,
+                141.5
+              ],
+              [
+                217.5,
+                141.5
+              ],
+              [
+                217.5,
+                57.5
+              ]
+            ],
+            "trace": []
+          },
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                23.5,
+                19.5
+              ],
+              [
+                107.5,
+                19.5
+              ],
+              [
+                107.5,
+                103.5
+              ],
+              [
+                23.5,
+                103.5
+              ]
+            ],
+            "trace": []
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "same-payload-two-gray",
+      "diagnostics": true,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                301.5,
+                57.5
+              ],
+              [
+                301.5,
+                141.5
+              ],
+              [
+                217.5,
+                141.5
+              ],
+              [
+                217.5,
+                57.5
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=26; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=1; parity per block=7; corrected codewords=0"
+              },
+              {
+                "stage": "image.sample",
+                "detail": "dimension=21, projective g=0.000000, h=0.000000"
+              }
+            ]
+          },
+          {
+            "bytes_hex": "00ff014c0d",
+            "hex": "00ff014c0d",
+            "version": 1,
+            "mask": 5,
+            "ec_level": "L",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": false,
+              "index": 0,
+              "count": 0,
+              "parity": 0
+            },
+            "segments": [
+              {
+                "mode": 4,
+                "bytes_hex": "00ff014c0d",
+                "hex": "00ff014c0d",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 52
+              }
+            ],
+            "corners": [
+              [
+                23.5,
+                19.5
+              ],
+              [
+                107.5,
+                19.5
+              ],
+              [
+                107.5,
+                103.5
+              ],
+              [
+                23.5,
+                103.5
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=26; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=1; parity per block=7; corrected codewords=0"
+              },
+              {
+                "stage": "image.sample",
+                "detail": "dimension=21, projective g=0.000000, h=0.000000"
+              }
+            ]
+          }
+        ],
+        "trace": [
+          {
+            "stage": "image.finders",
+            "detail": "global: candidates=7, triples=16"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=37.500000, y=33.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=93.500000, y=33.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=231.500000, y=71.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=287.500000, y=71.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=37.500000, y=89.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=287.500000, y=127.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=253.500000, y=109.500000, module=5.142857, hits=4"
+          },
+          {
+            "stage": "image.finders",
+            "detail": "local: candidates=7, triples=16"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=37.500000, y=33.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=93.500000, y=33.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=231.500000, y=71.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=287.500000, y=71.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=37.500000, y=89.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=287.500000, y=127.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=253.500000, y=109.500000, module=5.142857, hits=4"
+          },
+          {
+            "stage": "image.work",
+            "detail": "grid attempts=2, sample probes=2902"
+          }
+        ]
+      }
+    },
+    {
+      "id": "structured-append-pair-gray",
+      "diagnostics": false,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "5354525543545552454420415050454e4420504152542054574f20",
+            "hex": "5354525543545552454420415050454e4420504152542054574f20",
+            "version": 3,
+            "mask": 4,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": true,
+              "index": 1,
+              "count": 2,
+              "parity": 8
+            },
+            "segments": [
+              {
+                "mode": 3,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 20
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "5354525543545552454420415050454e4420504152542054574f20",
+                "hex": "5354525543545552454420415050454e4420504152542054574f20",
+                "eci": -1,
+                "bit_offset": 20,
+                "bit_length": 228
+              }
+            ],
+            "corners": [
+              [
+                163.5,
+                15.5
+              ],
+              [
+                279.5,
+                15.5
+              ],
+              [
+                279.5,
+                131.5
+              ],
+              [
+                163.5,
+                131.5
+              ]
+            ],
+            "trace": []
+          },
+          {
+            "bytes_hex": "5354525543545552454420415050454e442050415254204f4e4520",
+            "hex": "5354525543545552454420415050454e442050415254204f4e4520",
+            "version": 3,
+            "mask": 0,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": true,
+              "index": 0,
+              "count": 2,
+              "parity": 8
+            },
+            "segments": [
+              {
+                "mode": 3,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 20
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "5354525543545552454420415050454e442050415254204f4e4520",
+                "hex": "5354525543545552454420415050454e442050415254204f4e4520",
+                "eci": -1,
+                "bit_offset": 20,
+                "bit_length": 228
+              }
+            ],
+            "corners": [
+              [
+                15.5,
+                15.5
+              ],
+              [
+                131.5,
+                15.5
+              ],
+              [
+                131.5,
+                131.5
+              ],
+              [
+                15.5,
+                131.5
+              ]
+            ],
+            "trace": []
+          }
+        ],
+        "trace": []
+      }
+    },
+    {
+      "id": "structured-append-pair-gray",
+      "diagnostics": true,
+      "result": {
+        "ok": true,
+        "error": "none",
+        "message": "",
+        "work_limit_reached": false,
+        "symbols": [
+          {
+            "bytes_hex": "5354525543545552454420415050454e4420504152542054574f20",
+            "hex": "5354525543545552454420415050454e4420504152542054574f20",
+            "version": 3,
+            "mask": 4,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": true,
+              "index": 1,
+              "count": 2,
+              "parity": 8
+            },
+            "segments": [
+              {
+                "mode": 3,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 20
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "5354525543545552454420415050454e4420504152542054574f20",
+                "hex": "5354525543545552454420415050454e4420504152542054574f20",
+                "eci": -1,
+                "bit_offset": 20,
+                "bit_length": 228
+              }
+            ],
+            "corners": [
+              [
+                163.5,
+                15.5
+              ],
+              [
+                279.5,
+                15.5
+              ],
+              [
+                279.5,
+                131.5
+              ],
+              [
+                163.5,
+                131.5
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=70; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=2; parity per block=18; corrected codewords=0"
+              },
+              {
+                "stage": "image.sample",
+                "detail": "dimension=29, projective g=0.000000, h=0.000000"
+              }
+            ]
+          },
+          {
+            "bytes_hex": "5354525543545552454420415050454e442050415254204f4e4520",
+            "hex": "5354525543545552454420415050454e442050415254204f4e4520",
+            "version": 3,
+            "mask": 0,
+            "ec_level": "Q",
+            "corrected_codewords": 0,
+            "format_distance": 0,
+            "rotation": 0,
+            "mirrored": false,
+            "inverted": false,
+            "noncanonical_padding": false,
+            "fnc1": 0,
+            "fnc1_application_indicator": -1,
+            "structured_append": {
+              "present": true,
+              "index": 0,
+              "count": 2,
+              "parity": 8
+            },
+            "segments": [
+              {
+                "mode": 3,
+                "bytes_hex": "",
+                "hex": "",
+                "eci": -1,
+                "bit_offset": 0,
+                "bit_length": 20
+              },
+              {
+                "mode": 4,
+                "bytes_hex": "5354525543545552454420415050454e442050415254204f4e4520",
+                "hex": "5354525543545552454420415050454e442050415254204f4e4520",
+                "eci": -1,
+                "bit_offset": 20,
+                "bit_length": 228
+              }
+            ],
+            "corners": [
+              [
+                15.5,
+                15.5
+              ],
+              [
+                131.5,
+                15.5
+              ],
+              [
+                131.5,
+                131.5
+              ],
+              [
+                15.5,
+                131.5
+              ]
+            ],
+            "trace": [
+              {
+                "stage": "format",
+                "detail": "BCH distance=0"
+              },
+              {
+                "stage": "extract",
+                "detail": "codewords=70; nonzero remainder bits=0"
+              },
+              {
+                "stage": "ecc",
+                "detail": "blocks=2; parity per block=18; corrected codewords=0"
+              },
+              {
+                "stage": "image.sample",
+                "detail": "dimension=29, projective g=0.000000, h=0.000000"
+              }
+            ]
+          }
+        ],
+        "trace": [
+          {
+            "stage": "image.finders",
+            "detail": "global: candidates=6, triples=30"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=117.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=177.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=265.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=117.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=177.500000, y=117.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finders",
+            "detail": "local: candidates=6, triples=30"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=117.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=177.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=265.500000, y=29.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=29.500000, y=117.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.finder",
+            "detail": "x=177.500000, y=117.500000, module=4.000000, hits=12"
+          },
+          {
+            "stage": "image.work",
+            "detail": "grid attempts=2, sample probes=4112"
+          }
+        ]
+      }
+    },
+    {
+      "id": "blank-white-gray",
+      "diagnostics": false,
+      "result": {
+        "ok": false,
+        "error": "not_found",
+        "message": "no decodable Model 2 symbol found",
+        "work_limit_reached": false,
+        "symbols": [],
+        "trace": []
+      }
+    },
+    {
+      "id": "blank-white-gray",
+      "diagnostics": true,
+      "result": {
+        "ok": false,
+        "error": "not_found",
+        "message": "no decodable Model 2 symbol found",
+        "work_limit_reached": false,
+        "symbols": [],
+        "trace": [
+          {
+            "stage": "image.finders",
+            "detail": "global: candidates=0, triples=0"
+          },
+          {
+            "stage": "image.finders",
+            "detail": "local: candidates=0, triples=0"
+          },
+          {
+            "stage": "image.work",
+            "detail": "grid attempts=0, sample probes=0"
+          }
+        ]
+      }
+    }
+  ]
+}

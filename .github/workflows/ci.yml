@@ -22,6 +22,10 @@ jobs:
         run: python tests/test_writing.py
       - name: 文書の表記を検査
         run: python tools/verify_writing.py
+      - name: ブラウザー文書の表記を検査
+        run: python tools/verify_writing.py browser/README.md browser/trial/はじめに.md browser/trial/tests/README.md browser/trial/THIRD_PARTY-Reader.md
+      - name: ソース配布一覧を検査
+        run: python tools/source_manifest.py
       - name: ビルド・テスト・再配置したインストールの利用
         run: python tests/run_ci.py --work-dir "${{ runner.temp }}/specqr-reader-ci"
   linux-sanitizers:

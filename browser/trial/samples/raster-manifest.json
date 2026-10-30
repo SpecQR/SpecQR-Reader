@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "sourceInputsSha256": "f4a51e1bedc5cbd329591f11ce90ec5645571432a00edbf4b4728cc4e8a78546",
+  "rasters": [
+    {
+      "path": "fixtures/reader/single-binary.pgm",
+      "width": 116,
+      "height": 116,
+      "channels": 1,
+      "maxval": 255,
+      "scale": 4,
+      "minimumQuietZoneModules": 4,
+      "dark": [
+        0
+      ],
+      "light": [
+        255
+      ],
+      "placements": [
+        {
+          "source": "binary-nul-invalid-utf8",
+          "left": 16,
+          "top": 16
+        }
+      ],
+      "sha256": "f6a67d3e64cc8e92a0dafdbb2683154ec23e79faff2b4478da07b46a8bce100d",
+      "rasterSha256": "075ec4b52cc98415d1f4c22a9de70e1de2998e2e06abb3f9bd6e40369e1bccb6"
+    },
+    {
+      "path": "fixtures/reader/single-binary.ppm",
+      "width": 116,
+      "height": 116,
+      "channels": 3,
+      "maxval": 255,
+      "scale": 4,
+      "minimumQuietZoneModules": 4,
+      "dark": [
+        0,
+        0,
+        0
+      ],
+      "light": [
+        255,
+        255,
+        255
+      ],
+      "placements": [
+        {
+          "source": "binary-nul-invalid-utf8",
+          "left": 16,
+          "top": 16
+        }
+      ],
+      "sha256": "c26a97f7657e10a5bd17cb2cf13385c9b1faa54488b384705ce4005d892545f2",
+      "rasterSha256": "fa4e2abcbdd29e3e1003d936550a7f955c099c75c012850d7f682e106505166a"
+    },
+    {
+      "path": "fixtures/reader/different-payloads.pgm",
+      "width": 340,
+      "height": 200,
+      "channels": 1,
+      "maxval": 255,
+      "scale": 4,
+      "minimumQuietZoneModules": 4,
+      "dark": [
+        0
+      ],
+      "light": [
+        255
+      ],
+      "placements": [
+        {
+          "source": "binary-nul-invalid-utf8",
+          "left": 16,
+          "top": 16
+        },
+        {
+          "source": "fnc1-first-alpha-gs",
+          "left": 192,
+          "top": 16
+        }
+      ],
+      "sha256": "e66ef738407515af326f43da870443a3e380f349c276209cdd8f86b99211bc7a",
+      "rasterSha256": "af29ded5fef9dbe7681f0cab34b583d67ea8a89851db94555fd496c706eda91d"
+    },
+    {
+      "path": "fixtures/reader/same-payload-two.pgm",
+      "width": 330,
+      "height": 180,
+      "channels": 1,
+      "maxval": 255,
+      "scale": 4,
+      "minimumQuietZoneModules": 4,
+      "dark": [
+        0
+      ],
+      "light": [
+        255
+      ],
+      "placements": [
+        {
+          "source": "binary-nul-invalid-utf8",
+          "left": 24,
+          "top": 20
+        },
+        {
+          "source": "binary-nul-invalid-utf8",
+          "left": 218,
+          "top": 58,
+          "rotation": 1
+        }
+      ],
+      "sha256": "6a07d08703596cbcc40954751a7beba19694a115e54a4fa211d36c3ab965d259",
+      "rasterSha256": "bed2fd5e814336ceb11a779b0ee9bb8bb26d4f9134cd9490f42d8017f3f5e72a"
+    },
+    {
+      "path": "fixtures/reader/structured-append-pair.pgm",
+      "width": 296,
+      "height": 148,
+      "channels": 1,
+      "maxval": 255,
+      "scale": 4,
+      "minimumQuietZoneModules": 4,
+      "dark": [
+        0
+      ],
+      "light": [
+        255
+      ],
+      "placements": [
+        {
+          "source": "metadata-sa-0",
+          "left": 16,
+          "top": 16
+        },
+        {
+          "source": "metadata-sa-1",
+          "left": 164,
+          "top": 16
+        }
+      ],
+      "sha256": "537dd15d232c452204f3e0e67da88c4f1def7d373ca074298e5cc39bf776878f",
+      "rasterSha256": "9cde2066a495fc6c80cf1f74a59119cd91116891af70945f5e7e7a465b6cfb28"
+    },
+    {
+      "path": "fixtures/reader/blank-white.pgm",
+      "width": 64,
+      "height": 64,
+      "channels": 1,
+      "maxval": 255,
+      "scale": 4,
+      "minimumQuietZoneModules": 4,
+      "dark": [
+        0
+      ],
+      "light": [
+        255
+      ],
+      "placements": [],
+      "sha256": "fbda3e5665174433272beab4f25172bc03466e3f8700bcf6007b32c3636f2dc3",
+      "rasterSha256": "f47a8ec3e9aff2318d896942282ad4fe37d6391c82914f54a5da8a37de1300c6"
+    }
+  ]
+}

@@ -36,7 +36,8 @@ METADATA_EXCEPTION_CONTROLS=[]
 class EvaluatorGateTests(unittest.TestCase):
     def run_case(self,name,*,returncode=0,ok=True,error='none',symbols=('41',),
                  work_limit=False,expected=('41',),policy='exact',reference=('41',),
-                 reference_error=None,mutation=None,gate=True,no_reference=False,reference_expected=None):
+                 reference_error=None,mutation=None,gate=True,no_reference=False,reference_expected=None,
+                 omit_work_limit=False):
         with tempfile.TemporaryDirectory(prefix='specqr-evaluator-control-') as directory:
             root=pathlib.Path(directory)
             for path in ('src','include/specqr','tools','fixtures','build'):
@@ -56,6 +57,7 @@ class EvaluatorGateTests(unittest.TestCase):
             response={'ok':ok,'error':error,'message':'controlled CLI response','runtime_ms':0.125,
                       'peak_rss_kib':1024,'work_limit_reached':work_limit,
                       'symbols':[{'bytes_hex':s} for s in symbols]}
+            if omit_work_limit:del response['work_limit_reached']
 
             def fake_process(command,timeout):
                 self.assertTrue(pathlib.Path(command[0]).is_file(),'main must snapshot the binary')
@@ -130,6 +132,98 @@ class EvaluatorGateTests(unittest.TestCase):
         self.assertEqual(status,0);self.assertTrue(report['gate']['passed'])
         self.assertTrue(report['records'][0]['partial_search_success'])
         self.assertEqual(report['categories']['gate-controls']['partial_search_successes'],1)
+
+    def test_partial_search_does_not_relax_exact_payloads(self):
+        status,report=self.run_case('partial-search-missing-symbol',work_limit=True,
+                                    expected=('41','42'),reference=('41','42'))
+        row=report['records'][0]
+        checks={x['name']:x['status'] for x in row['checks']}
+        self.assertEqual(checks['cli-status-contract'],'passed')
+        self.assertEqual(checks['resource-outcome'],'passed')
+        self.assertEqual(checks['payload-multiset'],'failed')
+        self.assertTrue(row['partial_search_success'])
+        self.assertEqual(row['matched_symbols'],1)
+        self.assert_rejected(status,report,'product')
+
+    def test_resource_limit_retains_partial_symbols_without_passing_gate(self):
+        # 模擬応答の対照であり、実際のメモリー確保失敗の注入ではありません。
+        for work_limit in (False,True):
+            for symbols in ((),('41',),('41','42')):
+                name='resource-limit-flag-'+str(work_limit)+'-symbols-'+str(len(symbols))
+                with self.subTest(name=name):
+                    status,report=self.run_case(name,returncode=2,ok=False,error='resource_limit',
+                                                work_limit=work_limit,symbols=symbols,
+                                                expected=('41','42'),reference=('41','42'))
+                    row=report['records'][0]
+                    checks={x['name']:x['status'] for x in row['checks']}
+                    self.assertEqual(checks['cli-status-contract'],'passed')
+                    self.assertEqual(checks['resource-outcome'],'failed')
+                    self.assertEqual(checks['payload-multiset'],'passed' if len(symbols)==2 else 'failed')
+                    self.assertEqual(row['error'],'resource_limit')
+                    self.assertEqual(row['cli_returncode'],2)
+                    self.assertFalse(row['cli_ok'])
+                    self.assertEqual(row['work_limit_reached'],work_limit)
+                    self.assertEqual(row['matched_symbols'],len(symbols))
+                    self.assertEqual(row['details']['decoded']['binaryHex'],list(symbols))
+                    self.assertEqual(row['resource_partial_symbols'],bool(symbols))
+                    self.assertFalse(row['partial_search_success'])
+                    self.assertEqual(report['categories']['gate-controls']['partial_search_successes'],0)
+                    self.assertEqual(report['categories']['gate-controls']['resource_partial_results'],int(bool(symbols)))
+                    self.assert_rejected(status,report,'product')
+
+    def test_resource_limit_not_an_ordinary_negative_or_allowed_rejection(self):
+        for name,expected,policy in [('negative',(),'exact'),('recover-or-reject',('41',),'recover_or_reject')]:
+            with self.subTest(name=name):
+                status,report=self.run_case('resource-limit-'+name,returncode=2,ok=False,error='resource_limit',
+                                            symbols=(),expected=expected,policy=policy,reference=())
+                checks={x['name']:x['status'] for x in report['records'][0]['checks']}
+                self.assertEqual(checks['payload-multiset'],'passed')
+                self.assertEqual(checks['cli-status-contract'],'passed')
+                self.assertEqual(checks['resource-outcome'],'failed')
+                self.assert_rejected(status,report,'product')
+
+    def test_resource_limit_exit_and_ok_remain_independent(self):
+        for returncode,ok in ((0,False),(0,True),(2,True),(7,False)):
+            name='resource-limit-exit-'+str(returncode)+'-ok-'+str(ok)
+            with self.subTest(name=name):
+                status,report=self.run_case(name,returncode=returncode,ok=ok,error='resource_limit',work_limit=True)
+                checks={x['name']:x['status'] for x in report['records'][0]['checks']}
+                self.assertEqual(checks['payload-multiset'],'passed')
+                self.assertEqual(checks['cli-status-contract'],'failed')
+                self.assertEqual(checks['resource-outcome'],'failed')
+                self.assertFalse(report['records'][0]['partial_search_success'])
+                self.assert_rejected(status,report,'product')
+
+    def test_non_resource_errors_must_not_retain_symbols(self):
+        for error in ('invalid_input','not_found','format','version','ecc','payload','unsupported'):
+            with self.subTest(error=error):
+                status,report=self.run_case('non-resource-symbols-'+error,returncode=2,ok=False,error=error)
+                checks={x['name']:x['status'] for x in report['records'][0]['checks']}
+                self.assertEqual(checks['payload-multiset'],'passed')
+                self.assertEqual(checks['cli-status-contract'],'failed')
+                self.assert_rejected(status,report,'product')
+
+    def test_invalid_work_limit_type_fails_without_hiding_report(self):
+        for work_limit in (0,1,'true',None):
+            with self.subTest(work_limit=work_limit):
+                status,report=self.run_case('invalid-work-limit-'+repr(work_limit),work_limit=work_limit)
+                checks={x['name']:x['status'] for x in report['records'][0]['checks']}
+                self.assertEqual(checks['cli-status-contract'],'failed')
+                self.assertEqual(report['categories']['gate-controls']['work_limit_reached'],0)
+                self.assert_rejected(status,report,'product')
+
+    def test_work_limit_omission_only_for_cli_exception(self):
+        status,report=self.run_case('invalid-input-exception-without-flag',returncode=2,ok=False,
+                                    error='invalid_input',symbols=(),expected=(),reference=(),omit_work_limit=True)
+        self.assertEqual(status,0)
+        self.assertIsNone(report['records'][0]['work_limit_reached'])
+        self.assertTrue(report['gate']['passed'])
+        for name,kwargs in [('success',{}),('resource-limit',{'returncode':2,'ok':False,'error':'resource_limit'})]:
+            with self.subTest(name=name):
+                status,report=self.run_case(name+'-without-flag',omit_work_limit=True,**kwargs)
+                checks={x['name']:x['status'] for x in report['records'][0]['checks']}
+                self.assertEqual(checks['cli-status-contract'],'failed')
+                self.assert_rejected(status,report,'product')
 
     def test_valid_negative_rejection(self):
         status,report=self.run_case('valid-negative-rejection',returncode=2,ok=False,error='not_found',
